@@ -27,13 +27,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-      - name: Install dependencies
-        run: npm install --include=dev
+      - name: Install dependencies and Vite
+        run: |
+          npm install --include=dev
+          npm install -D vite @vitejs/plugin-react
 
       - name: Build Vite project
-        run: npm run build
+        run: npx vite build
         env:
           VITE_API_URL: https://backend-blond-three-91.vercel.app
 
