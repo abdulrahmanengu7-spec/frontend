@@ -1,0 +1,20 @@
+.fuel-hero-card { display: grid; grid-template-columns: 1fr 320px; gap: 18px; background: linear-gradient(135deg,#0b1f3a,#1d2330); color: #fff; border-radius: 18px; padding: 22px; margin-bottom: 16px; box-shadow: 0 18px 45px rgba(15,23,42,.18); }
+.fuel-hero-card h2 { margin: 4px 0 8px; font-size: 28px; }
+.fuel-hero-card p { margin: 0; color: #dbeafe; line-height: 1.5; }
+.eyebrow { color: #93c5fd !important; font-weight: 900; letter-spacing: .8px; font-size: 12px; }
+.fuel-total-card { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); border-radius: 16px; padding: 18px; display: grid; align-content: center; gap: 5px; }
+.fuel-total-card span { color: #bfdbfe; font-weight: 800; }
+.fuel-total-card b { font-size: 28px; }
+.fuel-total-card small { color: #e0f2fe; font-weight: 700; }
+.fuel-info-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 16px; }
+.fuel-info-grid > div { background: #fff; border: 1px solid #dbeafe; border-radius: 14px; padding: 14px; box-shadow: 0 10px 25px rgba(0,0,0,.06); }
+.fuel-info-grid span { display: block; color: #64748b; font-size: 12px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
+.fuel-info-grid b { color: #0f172a; }
+.fuel-summary-card .sheet-title-band { background: #0b1f3a; }
+.fuel-table-wrap { max-height: unset; }
+.fuel-summary-table th { background: #1d2330; color: #fff; font-size: 12px; }
+.fuel-summary-table td { text-align: center; font-weight: 700; }
+.fuel-summary-table td:first-child { text-align: left; }
+.cumulative-row td { background: #bd1017 !important; color: #fff !important; font-weight: 900; font-size: 13px; }
+@media(max-width: 900px){ .fuel-hero-card { grid-template-columns: 1fr; } .fuel-info-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width: 560px){ .fuel-info-grid { grid-template-columns: 1fr; } .fuel-hero-card h2 { font-size: 22px; } }

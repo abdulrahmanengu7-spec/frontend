@@ -1,0 +1,20 @@
+.admin-panel h1 { color: #bd1017; margin: 0; }
+.admin-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 16px; }
+.admin-head p { color: #64748b; font-weight: 700; margin: 4px 0 0; }
+.admin-head input { padding: 12px; border: 1px solid #d1d5db; border-radius: 10px; min-width: 240px; }
+.admin-card, .admin-form { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 12px 35px rgba(0,0,0,.08); margin-bottom: 16px; }
+.admin-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; align-items: end; }
+.admin-form h2, .admin-card h2 { grid-column: 1/-1; margin: 0 0 4px; color: #111827; }
+.admin-form input, .admin-form select, .admin-table select { padding: 10px; border: 1px solid #d1d5db; border-radius: 9px; width: 100%; }
+.admin-form-actions { display: flex; gap: 8px; }
+.admin-form-actions button, .admin-table button { border: 0; border-radius: 8px; padding: 10px 12px; font-weight: 900; cursor: pointer; }
+.save-user, .admin-table button { background: #bd1017; color: #fff; }
+.admin-form-actions button[type="button"] { background: #111827; color: #fff; }
+.admin-table-wrap { overflow: auto; }
+.admin-table { width: 100%; min-width: 850px; border-collapse: collapse; }
+.admin-table th { background: #bd1017; color: #fff; padding: 10px; text-align: left; }
+.admin-table td { border: 1px solid #e5e7eb; padding: 9px; vertical-align: middle; }
+.admin-table small { display: block; color: #16a34a; font-weight: 900; margin-top: 4px; }
+.admin-table .delete-user { background: #dc2626; margin-left: 6px; }
+.admin-table button:disabled, .admin-table select:disabled { opacity: .55; cursor: not-allowed; }
+@media(max-width: 800px){ .admin-head { flex-direction: column; align-items: stretch; } .admin-head input { min-width: 0; } }

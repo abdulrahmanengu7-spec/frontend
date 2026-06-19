@@ -1,0 +1,82 @@
+
+.machinePage{
+  padding:15px;
+  background:#eef3f8;
+  min-height:100vh;
+  font-family:Arial;
+}
+
+/* HEADER */
+.machineHeader{
+  text-align:center;
+  background:#003366;
+  color:white;
+  padding:10px;
+  border-radius:6px;
+  margin-bottom:15px;
+}
+
+.machineHeader h1{
+  font-size:16px;
+}
+
+.machineHeader h2{
+  font-size:14px;
+  color:#ffcccc;
+}
+
+/* GRID */
+.machineGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:15px;
+}
+
+/* BOX */
+.box{
+  background:white;
+  padding:12px;
+  text-align:center;
+  border-radius:6px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.box h3{
+  font-size:13px;
+}
+
+.box p{
+  font-size:16px;
+  font-weight:bold;
+}
+
+/* COLORS */
+.blue{border-left:5px solid #007bff;}
+.green{border-left:5px solid #28a745;}
+.red{border-left:5px solid #dc3545;}
+
+/* TABLE */
+.tableBox{
+  background:white;
+  padding:10px;
+  border-radius:6px;
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  border:1px solid #ccc;
+  padding:8px;
+  font-size:12px;
+  text-align:center;
+}
+
+th{
+  background:#003366;
+  color:white;
+}

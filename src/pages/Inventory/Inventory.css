@@ -1,0 +1,59 @@
+.invPage{
+  padding:15px;
+  background:#eef3f8;
+  min-height:100vh;
+}
+
+.topBar{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.addBtn{
+  background:green;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  cursor:pointer;
+}
+
+.pdfBtn{
+  background:#003366;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  cursor:pointer;
+}
+
+.tableBox{
+  background:white;
+  padding:10px;
+  overflow:auto;
+  max-height:75vh;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th{
+  background:#003366;
+  color:white;
+  padding:10px;
+}
+
+td{
+  border:1px solid #ddd;
+  text-align:center;
+}
+
+input{
+  width:100%;
+  border:none;
+  text-align:center;
+  outline:none;
+}

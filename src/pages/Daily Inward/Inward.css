@@ -1,0 +1,21 @@
+.page{
+  padding:15px;
+  background:#f7f9fc;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+}
+
+th{
+  background:green;
+  color:white;
+  padding:10px;
+}
+
+td{
+  border:1px solid #ddd;
+  padding:5px;
+}

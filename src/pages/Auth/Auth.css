@@ -1,0 +1,19 @@
+.auth-layout { min-height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; background: linear-gradient(135deg,#eef8ff 0%,#dff2ff 46%,#9bd6ff 100%); }
+.auth-main { flex: 1; display: grid; place-items: center; padding: 32px 16px; position: relative; z-index: 2; }
+.auth-card { width: 100%; max-width: 410px; background: #fff; border-radius: 16px; padding: 30px 34px 26px; box-shadow: 0 22px 70px rgba(19,38,66,.18); }
+.auth-logo { height: 88px; width: auto; object-fit: contain; margin: 0 auto 12px; display: block; }
+.auth-subtitle { text-align: center; color: #6b7280; font-size: 14px; font-weight: 600; margin: 0 0 18px; }
+.auth-form { display: flex; flex-direction: column; gap: 14px; }
+.auth-title { text-align: center; font-size: 28px; margin: 0 0 6px; color: #171717; font-weight: 800; }
+.input-wrap { height: 44px; border: 1.5px solid #d6d6d6; border-radius: 8px; background: #fff; display: flex; align-items: center; padding: 0 12px; gap: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.08); position: relative; }
+.input-wrap:focus-within { border-color: #bd1017; box-shadow: 0 0 0 3px rgba(189,16,23,.1); }
+.input-wrap input { border: 0; outline: 0; width: 100%; height: 100%; font-size: 15px; color: #111827; background: transparent; font-weight: 600; padding-right: 24px; }
+.icon, .eye { color: #7b7f87; display: flex; align-items: center; }
+.eye { position: absolute; right: 12px; cursor: pointer; }
+.eye:hover { color: #bd1017; }
+.auth-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.remember, .auth-check { display: flex; align-items: center; gap: 8px; color: #6b7280; font-size: 13px; font-weight: 600; }
+.auth-link { color: #bd1017; font-weight: 800; cursor: pointer; }
+.auth-button { width: 100%; border: none; border-radius: 14px; background: #bd1017; color: #fff; padding: 14px 18px; font-size: 15px; font-weight: 800; box-shadow: 0 8px 18px rgba(189,16,23,.24); cursor: pointer; }
+.auth-center { text-align: center; }
+.auth-small { font-size: 13px; color: #6b7280; font-weight: 600; }

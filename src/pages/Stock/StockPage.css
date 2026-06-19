@@ -1,0 +1,11 @@
+.erp-page { width: 100%; }
+.table-wrap { background: #fff; border-radius: 16px; box-shadow: 0 12px 35px rgba(0,0,0,.08); overflow: auto; max-height: calc(100vh - 170px); }
+.erp-table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+.erp-table th { position: sticky; top: 0; background: #bd1017; color: #fff; padding: 10px; font-size: 12px; text-align: left; z-index: 2; white-space: nowrap; }
+.erp-table td { border: 1px solid #e5e7eb; padding: 8px; font-size: 12px; vertical-align: top; }
+.erp-table input { width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 7px; }
+.action-cell { white-space: nowrap; display: flex; gap: 6px; }
+.action-cell button { border: 0; border-radius: 7px; padding: 7px 9px; cursor: pointer; font-weight: 800; }
+.save-btn { background: #16a34a; color: #fff; }
+.delete-btn { background: #dc2626; color: #fff; }
+.erp-table select { width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 7px; background: #fff; }

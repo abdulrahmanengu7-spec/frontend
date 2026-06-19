@@ -1,0 +1,32 @@
+.auth-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+
+  /* 🔥 MAIN FIX: SPACE ADD */
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+/* checkbox side spacing fix */
+.remember{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* Forgot password spacing clean */
+.auth-row .auth-link{
+  color:blue;
+  cursor:pointer;
+  font-weight:600;
+
+  /* 🔥 extra spacing feel */
+  margin-left:10px;
+}
+
+/* optional: button spacing better */
+.auth-button{
+  margin-top:10px;
+}

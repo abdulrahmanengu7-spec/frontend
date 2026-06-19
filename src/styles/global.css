@@ -1,0 +1,4 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, Calibri, sans-serif; background: #eef6ff; color: #111827; }
+button, input, select { font-family: inherit; }
+.access-denied { min-height: calc(100vh - 70px); display: grid; place-items: center; color: #dc2626; font-weight: 900; font-size: 24px; }

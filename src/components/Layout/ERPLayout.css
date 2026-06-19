@@ -1,0 +1,64 @@
+.erp-shell { min-height: 100vh; background: #eef6ff; }
+.erp-header { height: 62px; background: #bd1017; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+.burger-btn { border: 0; color: #fff; background: transparent; font-size: 28px; cursor: pointer; display: flex; }
+.erp-title { font-weight: 900; letter-spacing: .8px; text-align: center; }
+.erp-user { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.erp-user button { background: #111827; color: #fff; border: 0; border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 800; }
+.erp-user .profile-chip { background: #fff; color: #bd1017; }
+.erp-sidebar { position: fixed; top: 0; left: -320px; width: 310px; height: 100vh; background: #101827; color: #fff; z-index: 2000; transition: .25s; padding: 16px; overflow-y: auto; }
+.erp-sidebar.open { left: 0; }
+.sidebar-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.sidebar-head button { background: transparent; border: 0; color: #fff; font-size: 24px; cursor: pointer; }
+.menu-section h4 { font-size: 12px; color: #fca5a5; margin: 20px 0 10px; letter-spacing: .7px; }
+.menu-item { display: flex; align-items: center; gap: 11px; padding: 11px 12px; color: #e5e7eb; text-decoration: none; border-radius: 10px; margin-bottom: 6px; font-weight: 700; }
+.menu-item:hover, .menu-item.active { background: #bd1017; color: #fff; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 1500; }
+.erp-main { padding: 22px; }
+.profile-modal-backdrop { position: fixed; inset: 0; z-index: 2500; background: rgba(15, 23, 42, .55); display: grid; place-items: center; padding: 16px; }
+.profile-modal { width: min(760px, 96vw); max-height: 92vh; overflow-y: auto; background: #fff; border-radius: 20px; box-shadow: 0 25px 80px rgba(0,0,0,.35); padding: 20px; }
+.profile-modal-head { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; border-bottom: 1px solid #eef2f7; padding-bottom: 12px; margin-bottom: 16px; }
+.profile-modal-head h2 { margin: 0; color: #bd1017; }
+.profile-modal-head p { margin: 4px 0 0; color: #64748b; }
+.profile-modal-head button { border: 0; background: #fee2e2; color: #bd1017; border-radius: 50%; width: 34px; height: 34px; font-size: 20px; display: grid; place-items: center; cursor: pointer; }
+.profile-form { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+.profile-form h3 { grid-column: 1/-1; margin: 6px 0 0; color: #111827; }
+.profile-form label { color: #374151; font-weight: 800; font-size: 13px; }
+.profile-form input { width: 100%; margin-top: 6px; padding: 11px; border: 1px solid #d1d5db; border-radius: 10px; outline: none; }
+.profile-form input:focus { border-color: #bd1017; box-shadow: 0 0 0 3px rgba(189,16,23,.12); }
+.primary-btn, .dark-btn { align-self: end; height: 42px; border: 0; border-radius: 10px; color: #fff; font-weight: 900; cursor: pointer; }
+.primary-btn { background: #bd1017; }
+.dark-btn { background: #111827; }
+.modal-open { overflow: hidden; }
+@media (max-width: 800px) { .erp-title { font-size: 13px; } .erp-user .profile-chip { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .erp-user button { padding: 8px 9px; } .erp-main { padding: 12px; } .profile-form { grid-template-columns: 1fr; } }
+
+.scroll-float-tools {
+  position: fixed;
+  right: 18px;
+  bottom: 22px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.scroll-float-tools button {
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #bd1017, #7f0b10);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(189, 16, 23, .35);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.scroll-float-tools button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(189, 16, 23, .45);
+}
+@media (max-width: 800px) {
+  .scroll-float-tools { right: 12px; bottom: 14px; gap: 8px; }
+  .scroll-float-tools button { width: 42px; height: 42px; font-size: 20px; }
+}

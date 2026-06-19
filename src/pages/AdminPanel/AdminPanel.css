@@ -1,0 +1,70 @@
+.admin-page {
+  min-height: 100vh;
+  background: #eef6ff;
+  padding: 28px;
+  font-family: Arial, sans-serif;
+}
+
+.admin-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.12);
+  overflow-x: auto;
+}
+
+.admin-card h1 {
+  color: #bd1017;
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.back-btn {
+  border: none;
+  border-radius: 10px;
+  background: #374151;
+  color: #fff;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #1f2937;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  background: #fff;
+}
+
+th,
+td {
+  border: 1px solid #e5e7eb;
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  background: #bd1017;
+  color: white;
+  font-weight: 700;
+}
+
+select {
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  background: #fff;
+}
+
+select:focus {
+  border-color: #bd1017;
+  box-shadow: 0 0 0 2px rgba(189, 16, 23, 0.15);
+}

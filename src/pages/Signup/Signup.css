@@ -1,0 +1,112 @@
+
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+/* PAGE CENTER FIX */
+.authPage{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#eef3f8;
+  overflow:hidden;
+}
+
+/* SINGLE CLEAN CARD */
+.authCard{
+  width:420px;
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* HEADER */
+.authHeader{
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding-bottom: 10px;
+}
+
+.titleRed{
+  font-size:20px;
+  font-weight:800;
+  color:#c00000;
+  margin:0;
+}
+
+.titleBlack{
+  font-size:18px;
+  font-weight:700;
+  color:#111;
+  margin:0;
+}
+
+/* BODY */
+.authBody{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* FORM */
+.auth-form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* TITLE */
+.auth-title{
+  font-size:20px;
+  font-weight:700;
+}
+
+/* INPUT */
+.input-wrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid #ddd;
+  padding:10px 12px;
+  border-radius:10px;
+  background:white;
+}
+
+/* BUTTON */
+.auth-button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* LINK */
+.auth-link{
+  color:rgb(0, 19, 128);
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* CHECKBOX */
+.auth-check{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+}

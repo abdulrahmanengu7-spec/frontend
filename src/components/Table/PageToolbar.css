@@ -1,0 +1,14 @@
+.page-toolbar { background: #fff; border-radius: 16px; padding: 16px; box-shadow: 0 12px 35px rgba(0,0,0,.08); display: flex; justify-content: space-between; gap: 16px; margin-bottom: 16px; align-items: center; }
+.page-toolbar h1 { margin: 0; color: #bd1017; font-size: 24px; }
+.page-toolbar p { margin: 4px 0 0; color: #64748b; font-size: 13px; }
+.toolbar-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.toolbar-actions button, .search-box { border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; padding: 10px 12px; display: flex; align-items: center; gap: 6px; font-weight: 800; color: #374151; }
+.toolbar-actions button { cursor: pointer; }
+.toolbar-actions button:hover { color: #bd1017; border-color: #bd1017; }
+.search-box input { border: 0; outline: 0; min-width: 180px; }
+.hidden-file { display: none; }
+@media(max-width: 900px){ .page-toolbar { flex-direction: column; align-items: stretch; } .toolbar-actions { justify-content: flex-start; } }
+
+.toolbar-actions button:disabled { opacity: .55; cursor: not-allowed; }
+.danger-toolbar-btn { background: #dc2626 !important; color: #fff !important; border-color: #dc2626 !important; }
+.danger-toolbar-btn:hover { background: #b91c1c !important; color: #fff !important; }

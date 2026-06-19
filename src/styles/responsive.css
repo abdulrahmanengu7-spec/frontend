@@ -1,0 +1,490 @@
+/* =========================================================
+   LOTTE KOLSON STORE MANAGEMENT SYSTEM
+   FULL MOBILE RESPONSIVE CSS
+   ========================================================= */
+
+/* ---------- Base responsive reset ---------- */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+  font-size: 16px;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+/* ---------- Toast mobile fix ---------- */
+.Toastify__toast-container {
+  width: auto;
+  max-width: min(92vw, 420px);
+  right: 12px;
+  left: auto;
+}
+
+.Toastify__toast {
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+/* =========================================================
+   AUTH PAGES: Login / Signup / Forgot Password
+   ========================================================= */
+
+.auth-layout {
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+.auth-main {
+  min-height: 100dvh;
+  padding: 18px 12px !important;
+  display: grid;
+  place-items: center;
+}
+
+.auth-card {
+  width: min(100%, 420px) !important;
+  max-width: 420px !important;
+  border-radius: 18px !important;
+  padding: 26px 24px 24px !important;
+}
+
+.auth-logo {
+  max-height: 76px;
+  height: auto !important;
+  object-fit: contain;
+}
+
+.auth-title {
+  font-size: clamp(22px, 6vw, 30px) !important;
+  line-height: 1.15;
+}
+
+.auth-subtitle {
+  font-size: clamp(12px, 3.5vw, 14px) !important;
+}
+
+.auth-form {
+  width: 100%;
+}
+
+.input-wrap {
+  width: 100%;
+  min-height: 46px;
+}
+
+.input-wrap input {
+  min-width: 0;
+}
+
+.auth-row {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.auth-button {
+  min-height: 48px;
+}
+
+.auth-center,
+.auth-small {
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .auth-main {
+    padding: 12px !important;
+    align-items: center;
+  }
+
+  .auth-card {
+    max-width: calc(100vw - 24px) !important;
+    padding: 22px 16px 20px !important;
+  }
+
+  .auth-logo {
+    max-height: 58px;
+    margin-bottom: 8px !important;
+  }
+
+  .auth-form {
+    gap: 12px !important;
+  }
+
+  .auth-row {
+    gap: 8px;
+    align-items: center;
+  }
+
+  .remember,
+  .auth-check,
+  .auth-link,
+  .auth-small {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-card {
+    padding: 18px 12px !important;
+  }
+
+  .auth-title {
+    font-size: 22px !important;
+  }
+
+  .input-wrap {
+    padding: 0 10px !important;
+  }
+}
+
+/* =========================================================
+   ERP LAYOUT: Header / Sidebar / Main
+   ========================================================= */
+
+.erp-shell {
+  width: 100%;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+.erp-header {
+  width: 100%;
+  min-height: 62px;
+}
+
+.erp-title {
+  min-width: 0;
+}
+
+.erp-main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.erp-sidebar {
+  max-width: 86vw;
+}
+
+.overlay {
+  backdrop-filter: blur(1px);
+}
+
+.profile-chip {
+  min-width: 0;
+}
+
+.profile-chip,
+.erp-user button {
+  white-space: nowrap;
+}
+
+/* Header tablet */
+@media (max-width: 900px) {
+  .erp-header {
+    padding: 8px 12px !important;
+    gap: 8px;
+  }
+
+  .burger-btn {
+    flex: 0 0 auto;
+    font-size: 26px !important;
+  }
+
+  .erp-title {
+    flex: 1;
+    font-size: 13px !important;
+    line-height: 1.2;
+    letter-spacing: 0.3px !important;
+    text-align: center;
+  }
+
+  .erp-user {
+    gap: 6px !important;
+    flex: 0 0 auto;
+  }
+
+  .erp-user button {
+    padding: 8px 9px !important;
+    font-size: 12px !important;
+  }
+
+  .erp-user .profile-chip {
+    max-width: 120px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .erp-main {
+    padding: 12px !important;
+  }
+}
+
+/* Header mobile */
+@media (max-width: 600px) {
+  .erp-header {
+    min-height: auto !important;
+    display: grid !important;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    padding: 8px 10px !important;
+  }
+
+  .erp-title {
+    font-size: 11px !important;
+    line-height: 1.15;
+  }
+
+  .erp-user {
+    max-width: 120px;
+    justify-content: flex-end;
+  }
+
+  .erp-user .profile-chip {
+    max-width: 90px !important;
+    padding: 7px 8px !important;
+  }
+
+  .erp-user button:last-child {
+    padding: 7px 8px !important;
+    font-size: 0 !important;
+  }
+
+  .erp-user button:last-child svg {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .erp-sidebar {
+    width: min(320px, 88vw) !important;
+    left: -90vw;
+  }
+
+  .erp-main {
+    padding: 10px !important;
+  }
+}
+
+/* Very small mobile */
+@media (max-width: 380px) {
+  .erp-title {
+    font-size: 10px !important;
+  }
+
+  .erp-user {
+    max-width: 100px;
+  }
+
+  .erp-user .profile-chip {
+    max-width: 74px !important;
+  }
+}
+
+
+/* =========================================================
+   FINAL MOBILE HEADER FIX - FULL USERNAME VISIBLE
+   Mobile par full name second row me show hoga
+   File: frontend/src/styles/responsive.css
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .erp-header {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) 42px !important;
+    grid-template-areas:
+      "menu title logout"
+      "name name name" !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 8px 10px 10px !important;
+    overflow: visible !important;
+  }
+
+  .burger-btn {
+    grid-area: menu !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .erp-title {
+    grid-area: title !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0 !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    word-break: normal !important;
+  }
+
+  .erp-user {
+    display: contents !important;
+  }
+
+  .erp-user .profile-chip,
+  .profile-chip,
+  .erp-user button.profile-chip,
+  .erp-user > .profile-chip {
+    grid-area: name !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 40px !important;
+    padding: 0 14px !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    border-radius: 12px !important;
+  }
+
+  .erp-user button:last-child {
+    grid-area: logout !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+  }
+
+  .erp-user button:last-child svg {
+    font-size: 18px !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .erp-header {
+    grid-template-columns: 40px minmax(0, 1fr) 38px !important;
+    gap: 6px !important;
+    padding: 7px 8px 9px !important;
+  }
+
+  .burger-btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+  }
+
+  .erp-title {
+    font-size: 10.5px !important;
+    line-height: 1.12 !important;
+  }
+
+  .erp-user .profile-chip,
+  .profile-chip,
+  .erp-user button.profile-chip,
+  .erp-user > .profile-chip {
+    height: 38px !important;
+    font-size: 13px !important;
+    padding: 0 12px !important;
+  }
+
+  .erp-user button:last-child {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+  }
+
+  .erp-user button:last-child svg {
+    font-size: 17px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .erp-title {
+    font-size: 9.8px !important;
+  }
+
+  .erp-user .profile-chip,
+  .profile-chip,
+  .erp-user button.profile-chip,
+  .erp-user > .profile-chip {
+    font-size: 12.5px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .erp-header {
+    grid-template-columns: 36px minmax(0, 1fr) 34px !important;
+    gap: 5px !important;
+    padding: 6px 6px 8px !important;
+  }
+
+  .burger-btn {
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 36px !important;
+  }
+
+  .erp-title {
+    font-size: 8.8px !important;
+  }
+
+  .erp-user .profile-chip,
+  .profile-chip,
+  .erp-user button.profile-chip,
+  .erp-user > .profile-chip {
+    height: 36px !important;
+    font-size: 12px !important;
+    padding: 0 10px !important;
+  }
+
+  .erp-user button:last-child {
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 36px !important;
+  }
+}
+
+
+
