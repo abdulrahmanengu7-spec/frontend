@@ -26,15 +26,19 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
-      - name: Install dependencies and Vite
-        run: |
-          npm install --include=dev
-          npm install -D vite @vitejs/plugin-react
+      - name: Clean npm cache
+        run: npm cache clean --force
+
+      - name: Install project dependencies
+        run: npm install --include=dev --legacy-peer-deps
+
+      - name: Force install Vite
+        run: npm install --save-dev vite@latest @vitejs/plugin-react@latest --legacy-peer-deps
 
       - name: Build Vite project
-        run: npx vite build
+        run: npx --yes vite@latest build
         env:
           VITE_API_URL: https://backend-blond-three-91.vercel.app
 
