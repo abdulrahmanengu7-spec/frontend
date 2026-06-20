@@ -12,3 +12,116 @@
 .toolbar-actions button:disabled { opacity: .55; cursor: not-allowed; }
 .danger-toolbar-btn { background: #dc2626 !important; color: #fff !important; border-color: #dc2626 !important; }
 .danger-toolbar-btn:hover { background: #b91c1c !important; color: #fff !important; }
+
+
+.toolbar-right-area {
+  position: relative;
+  width: 100%;
+}
+
+.advanced-filter-box {
+  position: absolute;
+  top: 58px;
+  right: 0;
+  width: min(760px, 95vw);
+  background: #ffffff;
+  border: 1px solid #d7dde8;
+  border-radius: 14px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+  padding: 16px;
+  z-index: 999;
+}
+
+.advanced-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.advanced-filter-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.advanced-filter-header button {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: none;
+  background: #f1f5f9;
+  color: #111827;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.advanced-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.advanced-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.advanced-filter-field label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.advanced-filter-field input,
+.advanced-filter-field select {
+  height: 38px;
+  border: 1px solid #d7dde8;
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 14px;
+  outline: none;
+}
+
+.advanced-filter-field input:focus,
+.advanced-filter-field select:focus {
+  border-color: #c8102e;
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
+}
+
+.advanced-filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.advanced-filter-actions button {
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #d7dde8;
+  padding: 0 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.advanced-filter-actions button:first-child {
+  background: #c8102e;
+  border-color: #c8102e;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .advanced-filter-box {
+    position: fixed;
+    top: 90px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+
+  .advanced-filter-grid {
+    grid-template-columns: 1fr;
+  }
+}
