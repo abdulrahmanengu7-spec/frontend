@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../api/api";
 import { useAuth } from "../../context/AuthContext";
@@ -78,6 +78,9 @@ export default function TransactionPage({ type, title }) {
 
   const columns = type === "inward" ? inwardColumns : issueColumns;
 
+  const lookupTimerRef = useRef(null);
+  const lookupRequestRef = useRef(0);
+
   const [rows, setRows] = useState([]);
   const [lists, setLists] = useState({});
   const [search, setSearch] = useState("");
@@ -103,6 +106,11 @@ export default function TransactionPage({ type, title }) {
     setAdvancedFilters({});
     setEditing(null);
     setDraft({});
+
+    if (lookupTimerRef.current) {
+      clearTimeout(lookupTimerRef.current);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type]);
 
@@ -111,6 +119,14 @@ export default function TransactionPage({ type, title }) {
       .get("/lists")
       .then((res) => setLists(res.data || {}))
       .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (lookupTimerRef.current) {
+        clearTimeout(lookupTimerRef.current);
+      }
+    };
   }, []);
 
   const categoryOptions = useMemo(() => {
@@ -171,6 +187,19 @@ export default function TransactionPage({ type, title }) {
       }));
   }, [columns, categoryOptions, lists]);
 
+  const clearItemFields = (next) => {
+    return {
+      ...next,
+      itemDescription: "",
+      uom: "",
+      unitPrice: 0,
+      openQty: 0,
+      balanceQty: 0,
+      total: 0,
+      _stockBalance: 0,
+    };
+  };
+
   const recalcTransactionDraft = (next) => {
     const unitPrice = Number(next.unitPrice || 0);
     const qtyReceived = Number(next.qtyReceived || 0);
@@ -183,8 +212,8 @@ export default function TransactionPage({ type, title }) {
       return {
         ...next,
         openQty: stockBalance,
-        total: qtyReceived * unitPrice,
         balanceQty: stockBalance + qtyReceived,
+        total: qtyReceived * unitPrice,
       };
     }
 
@@ -195,11 +224,46 @@ export default function TransactionPage({ type, title }) {
     };
   };
 
-  const lookup = async (next) => {
-    const itemCode = cleanText(next.itemCode);
-    const category = cleanText(next.category);
+  const applyLookupResult = (baseDraft, item) => {
+    const stockBalance = Number(item.balanceQty || 0);
+    const unitPrice = Number(item.unitPrice || 0);
 
-    if (!itemCode || !category) return next;
+    const withStock = {
+      ...baseDraft,
+      itemCode: cleanText(baseDraft.itemCode),
+      category: cleanText(baseDraft.category),
+      itemDescription: item.itemDescription || "",
+      uom: item.uom || "",
+      unitPrice,
+      openQty: stockBalance,
+      _stockBalance: stockBalance,
+    };
+
+    return recalcTransactionDraft(withStock);
+  };
+
+  const runLookup = async (baseDraft = draft, showError = false) => {
+    if (lookupTimerRef.current) {
+      clearTimeout(lookupTimerRef.current);
+    }
+
+    const itemCode = cleanText(baseDraft.itemCode);
+    const category = cleanText(baseDraft.category);
+
+    if (!itemCode) {
+      setDraft((prev) =>
+        clearItemFields({
+          ...prev,
+          itemCode: "",
+        })
+      );
+      return;
+    }
+
+    if (!category) return;
+
+    const requestId = lookupRequestRef.current + 1;
+    lookupRequestRef.current = requestId;
 
     try {
       const res = await api.get("/stock/lookup", {
@@ -209,41 +273,38 @@ export default function TransactionPage({ type, title }) {
         },
       });
 
+      if (lookupRequestRef.current !== requestId) return;
+
       const item = res.data || {};
-      const stockBalance = Number(item.balanceQty || 0);
-      const unitPrice = Number(item.unitPrice || 0);
 
-      const withStock = {
-        ...next,
-        itemCode,
-        category,
-        itemDescription: item.itemDescription || "",
-        uom: item.uom || "",
-        unitPrice,
-        openQty: stockBalance,
-        _stockBalance: stockBalance,
-      };
+      setDraft((prev) => {
+        const currentCode = cleanText(prev.itemCode);
+        const currentCategory = cleanText(prev.category);
 
-      return recalcTransactionDraft(withStock);
+        if (currentCode !== itemCode || currentCategory !== category) {
+          return prev;
+        }
+
+        return applyLookupResult(prev, item);
+      });
     } catch (e) {
-      toast.error("Item not found in selected category");
+      if (lookupRequestRef.current !== requestId) return;
 
-      return {
-        ...next,
-        itemDescription: "",
-        uom: "",
-        unitPrice: 0,
-        openQty: 0,
-        balanceQty: 0,
-        total: 0,
-        _stockBalance: 0,
-      };
+      if (showError) {
+        toast.error("Item not found in selected category");
+      }
+
+      setDraft((prev) => {
+        const currentCode = cleanText(prev.itemCode);
+        const currentCategory = cleanText(prev.category);
+
+        if (currentCode !== itemCode || currentCategory !== category) {
+          return prev;
+        }
+
+        return clearItemFields(prev);
+      });
     }
-  };
-
-  const runLookup = async (baseDraft = draft) => {
-    const next = await lookup(baseDraft);
-    setDraft(next);
   };
 
   const setField = (key, value) => {
@@ -252,19 +313,50 @@ export default function TransactionPage({ type, title }) {
       [key]: value,
     };
 
+    if (key === "itemCode") {
+      if (lookupTimerRef.current) {
+        clearTimeout(lookupTimerRef.current);
+      }
+
+      const itemCode = cleanText(value);
+
+      if (!itemCode) {
+        setDraft(clearItemFields(next));
+        return;
+      }
+
+      setDraft(next);
+
+      lookupTimerRef.current = setTimeout(() => {
+        runLookup(next, false);
+      }, 700);
+
+      return;
+    }
+
+    if (key === "category") {
+      setDraft(next);
+
+      if (cleanText(next.itemCode)) {
+        runLookup(next, false);
+      }
+
+      return;
+    }
+
     if (["qtyReceived", "qtyIssued"].includes(key)) {
       next = recalcTransactionDraft(next);
     }
 
     setDraft(next);
-
-    if (key === "category" && cleanText(next.itemCode)) {
-      runLookup(next);
-    }
   };
 
   const startAdd = () => {
     const firstCategory = categoryOptions[0] || "Inventory";
+
+    if (lookupTimerRef.current) {
+      clearTimeout(lookupTimerRef.current);
+    }
 
     if (type === "inward") {
       setDraft({
@@ -330,6 +422,10 @@ export default function TransactionPage({ type, title }) {
   };
 
   const startEdit = (row) => {
+    if (lookupTimerRef.current) {
+      clearTimeout(lookupTimerRef.current);
+    }
+
     setEditing(row._id);
 
     setDraft({
@@ -399,20 +495,27 @@ export default function TransactionPage({ type, title }) {
         }
         onChange={(e) => setField(col.key, e.target.value)}
         onBlur={(e) => {
-          if (col.key === "itemCode") {
-            runLookup({
-              ...draft,
-              itemCode: e.target.value,
-            });
+          if (col.key === "itemCode" && cleanText(e.target.value)) {
+            runLookup(
+              {
+                ...draft,
+                itemCode: e.target.value,
+              },
+              false
+            );
           }
         }}
         onKeyDown={(e) => {
           if (col.key === "itemCode" && e.key === "Enter") {
             e.preventDefault();
-            runLookup({
-              ...draft,
-              itemCode: e.currentTarget.value,
-            });
+
+            runLookup(
+              {
+                ...draft,
+                itemCode: e.currentTarget.value,
+              },
+              true
+            );
           }
         }}
       />
