@@ -28,17 +28,19 @@ jobs:
         with:
           node-version: 22
 
-      - name: Clean npm cache
-        run: npm cache clean --force
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.15.4 --activate
 
-      - name: Install project dependencies
-        run: npm install --include=dev --legacy-peer-deps
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
 
       - name: Force install Vite
-        run: npm install --save-dev vite@latest @vitejs/plugin-react@latest --legacy-peer-deps
+        run: pnpm add -D vite@latest @vitejs/plugin-react@latest
 
       - name: Build Vite project
-        run: npx --yes vite@latest build
+        run: pnpm exec vite build
         env:
           VITE_API_URL: https://backend-blond-three-91.vercel.app
 
