@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   FiDownload,
   FiFileText,
@@ -11,6 +11,40 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
 import "./PageToolbar.css";
+
+function cleanText(value) {
+  return String(value || "").trim();
+}
+
+function getOptionValue(option) {
+  if (typeof option === "string" || typeof option === "number") {
+    return String(option);
+  }
+
+  return String(
+    option?.value ||
+      option?.name ||
+      option?.label ||
+      option?.title ||
+      option?.text ||
+      ""
+  );
+}
+
+function getOptionLabel(option) {
+  if (typeof option === "string" || typeof option === "number") {
+    return String(option);
+  }
+
+  return String(
+    option?.label ||
+      option?.name ||
+      option?.value ||
+      option?.title ||
+      option?.text ||
+      ""
+  );
+}
 
 export default function PageToolbar({
   title,
@@ -33,9 +67,21 @@ export default function PageToolbar({
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
   const [filterValues, setFilterValues] = useState({});
 
-  const activeFilterCount = Object.values(filterValues).filter(
-    (value) => String(value || "").trim() !== ""
-  ).length;
+  const activeFilterCount = useMemo(() => {
+    return Object.values(filterValues).filter(
+      (value) => cleanText(value) !== ""
+    ).length;
+  }, [filterValues]);
+
+  useEffect(() => {
+    setFilterValues({});
+    setShowAdvancedFilter(false);
+
+    if (onFilter) {
+      onFilter({});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title]);
 
   const pickFile = () => {
     fileRef.current?.click();
@@ -99,7 +145,12 @@ export default function PageToolbar({
 
   const handleFilterKeyDown = (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       applyAdvancedFilter();
+    }
+
+    if (e.key === "Escape") {
+      setShowAdvancedFilter(false);
     }
   };
 
@@ -115,16 +166,18 @@ export default function PageToolbar({
             <FiSearch />
 
             <input
-              value={search}
+              value={search || ""}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search..."
             />
           </div>
 
-          <button type="button" onClick={openFilterBox}>
-            <FiFilter />
-            Filter {activeFilterCount > 0 ? `(${activeFilterCount})` : ""}
-          </button>
+          {onFilter && (
+            <button type="button" onClick={openFilterBox}>
+              <FiFilter />
+              Filter {activeFilterCount > 0 ? `(${activeFilterCount})` : ""}
+            </button>
+          )}
 
           {canWrite && onAdd && (
             <button type="button" onClick={onAdd} disabled={busy}>
@@ -178,8 +231,8 @@ export default function PageToolbar({
           )}
         </div>
 
-        {showAdvancedFilter && (
-          <div className="advanced-filter-box">
+        {showAdvancedFilter && onFilter && (
+          <div className="advanced-filter-box" onKeyDown={handleFilterKeyDown}>
             <div className="advanced-filter-header">
               <h3>Advanced Filter</h3>
 
@@ -197,44 +250,56 @@ export default function PageToolbar({
               </div>
             ) : (
               <div className="advanced-filter-grid">
-                {filterFields.map((field) => (
-                  <div className="advanced-filter-field" key={field.key}>
-                    <label>{field.label}</label>
+                {filterFields.map((field) => {
+                  const options = Array.isArray(field.options)
+                    ? field.options
+                    : [];
 
-                    {field.options?.length ? (
-                      <select
-                        value={filterValues[field.key] || ""}
-                        onChange={(e) =>
-                          changeFilter(field.key, e.target.value)
-                        }
-                      >
-                        <option value="">All</option>
+                  return (
+                    <div className="advanced-filter-field" key={field.key}>
+                      <label>{field.label}</label>
 
-                        {field.options.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <input
-                        type={
-                          field.type === "date"
-                            ? "date"
-                            : field.type === "number"
-                            ? "number"
-                            : "text"
-                        }
-                        value={filterValues[field.key] || ""}
-                        onChange={(e) =>
-                          changeFilter(field.key, e.target.value)
-                        }
-                        onKeyDown={handleFilterKeyDown}
-                        placeholder={`Filter by ${field.label}`}
-                      />
-                    )}
-                  </div>
-                ))}
+                      {options.length ? (
+                        <select
+                          value={filterValues[field.key] || ""}
+                          onChange={(e) =>
+                            changeFilter(field.key, e.target.value)
+                          }
+                        >
+                          <option value="">All</option>
+
+                          {options.map((option) => {
+                            const value = getOptionValue(option);
+                            const label = getOptionLabel(option);
+
+                            if (!value) return null;
+
+                            return (
+                              <option key={value} value={value}>
+                                {label}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      ) : (
+                        <input
+                          type={
+                            field.type === "date"
+                              ? "date"
+                              : field.type === "number"
+                              ? "number"
+                              : "text"
+                          }
+                          value={filterValues[field.key] || ""}
+                          onChange={(e) =>
+                            changeFilter(field.key, e.target.value)
+                          }
+                          placeholder={`Filter by ${field.label}`}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
 
