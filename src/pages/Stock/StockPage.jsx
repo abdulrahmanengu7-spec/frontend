@@ -34,10 +34,11 @@ export default function StockPage({ category, apiCategory, title }) {
   const [rows, setRows] = useState([]);
   const [lists, setLists] = useState({});
   const [search, setSearch] = useState("");
+  const [advancedFilters, setAdvancedFilters] = useState({});
   const [editing, setEditing] = useState(null);
   const [draft, setDraft] = useState({});
 
-  const load = async (q = search) => {
+  const load = async (q = "") => {
     try {
       const res = await api.get(`/stock/${apiCategory}`, {
         params: { q },
@@ -52,6 +53,7 @@ export default function StockPage({ category, apiCategory, title }) {
 
   useEffect(() => {
     setSearch("");
+    setAdvancedFilters({});
     setEditing(null);
     setDraft({});
     load("");
@@ -69,10 +71,38 @@ export default function StockPage({ category, apiCategory, title }) {
 
   const filtered = useMemo(() => {
     const q = cleanText(search).toLowerCase();
-    if (!q) return rows;
 
-    return rows.filter((r) => JSON.stringify(r).toLowerCase().includes(q));
-  }, [rows, search]);
+    const activeFilters = Object.entries(advancedFilters).filter(
+      ([, value]) => cleanText(value) !== ""
+    );
+
+    return rows.filter((row) => {
+      const searchMatch =
+        !q || JSON.stringify(row).toLowerCase().includes(q);
+
+      const advancedMatch = activeFilters.every(([key, value]) => {
+        const rowValue = String(row[key] ?? "").toLowerCase();
+        const filterValue = String(value ?? "").toLowerCase();
+
+        return rowValue.includes(filterValue);
+      });
+
+      return searchMatch && advancedMatch;
+    });
+  }, [rows, search, advancedFilters]);
+
+  const filterFields = useMemo(() => {
+    return columns
+      .filter((col) => col.key !== "srNo")
+      .map((col) => ({
+        key: col.key,
+        label: col.label,
+        type: col.num ? "number" : "text",
+        options: col.selectGroup
+          ? lists[col.selectGroup]?.map((x) => x.value) || []
+          : [],
+      }));
+  }, [lists]);
 
   const recalcDraft = (next) => {
     const openingQty = toNumber(next.openingQty);
@@ -191,7 +221,8 @@ export default function StockPage({ category, apiCategory, title }) {
       });
 
       toast.success(
-        res.data?.message || `Imported ${res.data?.imported || 0} rows in ${title}`
+        res.data?.message ||
+          `Imported ${res.data?.imported || 0} rows in ${title}`
       );
 
       setEditing(null);
@@ -222,19 +253,20 @@ export default function StockPage({ category, apiCategory, title }) {
     }
   };
 
-  const renderCell = (r, col, idx) => {
-    const isEdit = editing === r._id || (editing === "new" && r._id === "new");
+  const renderCell = (row, col, idx) => {
+    const isEdit =
+      editing === row._id || (editing === "new" && row._id === "new");
 
     if (!isEdit) {
       if (col.key === "srNo") return idx + 1;
 
       if (col.num || col.readOnly) {
-        return Number(r[col.key] || 0).toLocaleString("en-PK", {
+        return Number(row[col.key] || 0).toLocaleString("en-PK", {
           maximumFractionDigits: 2,
         });
       }
 
-      return r[col.key] ?? "";
+      return row[col.key] ?? "";
     }
 
     if (col.key === "srNo") {
@@ -258,9 +290,9 @@ export default function StockPage({ category, apiCategory, title }) {
         >
           <option value="">Select</option>
 
-          {options.map((v) => (
-            <option key={v} value={v}>
-              {v}
+          {options.map((value) => (
+            <option key={value} value={value}>
+              {value}
             </option>
           ))}
         </select>
@@ -295,7 +327,8 @@ export default function StockPage({ category, apiCategory, title }) {
         setSearch={setSearch}
         onAdd={startAdd}
         onRefresh={() => load(search)}
-        onFilter={(q) => load(q)}
+        onFilter={setAdvancedFilters}
+        filterFields={filterFields}
         onDeleteAll={deleteAll}
         onExportExcel={() => exportRowsExcel(filtered, `${title}.xlsx`)}
         onExportPDF={() =>
@@ -312,8 +345,8 @@ export default function StockPage({ category, apiCategory, title }) {
         <table className="erp-table">
           <thead>
             <tr>
-              {columns.map((c) => (
-                <th key={c.key}>{c.label}</th>
+              {columns.map((col) => (
+                <th key={col.key}>{col.label}</th>
               ))}
 
               <th>Action</th>
@@ -321,14 +354,15 @@ export default function StockPage({ category, apiCategory, title }) {
           </thead>
 
           <tbody>
-            {data.map((r, idx) => {
+            {data.map((row, idx) => {
               const isCurrentEdit =
-                editing === r._id || (editing === "new" && r._id === "new");
+                editing === row._id ||
+                (editing === "new" && row._id === "new");
 
               return (
-                <tr key={r._id}>
-                  {columns.map((c) => (
-                    <td key={c.key}>{renderCell(r, c, idx)}</td>
+                <tr key={row._id}>
+                  {columns.map((col) => (
+                    <td key={col.key}>{renderCell(row, col, idx)}</td>
                   ))}
 
                   <td className="action-cell">
@@ -338,8 +372,8 @@ export default function StockPage({ category, apiCategory, title }) {
                       </button>
                     )}
 
-                    {canWrite && !isCurrentEdit && r._id !== "new" && (
-                      <button onClick={() => startEdit(r)}>Edit</button>
+                    {canWrite && !isCurrentEdit && row._id !== "new" && (
+                      <button onClick={() => startEdit(row)}>Edit</button>
                     )}
 
                     {canWrite && isCurrentEdit && (
@@ -353,8 +387,11 @@ export default function StockPage({ category, apiCategory, title }) {
                       </button>
                     )}
 
-                    {canDelete && r._id !== "new" && (
-                      <button className="delete-btn" onClick={() => del(r._id)}>
+                    {canDelete && row._id !== "new" && (
+                      <button
+                        className="delete-btn"
+                        onClick={() => del(row._id)}
+                      >
                         Delete
                       </button>
                     )}
