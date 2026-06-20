@@ -6,7 +6,7 @@ import PageToolbar from "../../components/Table/PageToolbar";
 import { exportRowsExcel, exportRowsPDF } from "../../utils/exporters";
 import "../Stock/StockPage.css";
 
-const categories = ["Inventory", "Non Inventory", "Services", "Patty Cash"];
+const defaultCategories = ["Inventory", "Non Inventory", "Services", "Patty Cash"];
 
 const inwardColumns = [
   { key: "srNo", label: "Sr" },
@@ -56,6 +56,23 @@ function dateValue(value) {
   return String(value).slice(0, 10);
 }
 
+function getListValue(item) {
+  if (typeof item === "string") return item;
+
+  return (
+    item?.value ||
+    item?.name ||
+    item?.label ||
+    item?.title ||
+    item?.text ||
+    ""
+  );
+}
+
+function uniqueValues(values) {
+  return [...new Set(values.map(cleanText).filter(Boolean))];
+}
+
 export default function TransactionPage({ type, title }) {
   const { canWrite, canDelete } = useAuth();
 
@@ -96,6 +113,27 @@ export default function TransactionPage({ type, title }) {
       .catch(() => {});
   }, []);
 
+  const categoryOptions = useMemo(() => {
+    const possibleGroups = [
+      lists.Category,
+      lists.Categories,
+      lists.category,
+      lists.categories,
+      lists["Stock Category"],
+      lists["Item Category"],
+    ];
+
+    const fromLists = possibleGroups
+      .flatMap((group) => (Array.isArray(group) ? group : []))
+      .map(getListValue);
+
+    return uniqueValues([...fromLists, ...defaultCategories]);
+  }, [lists]);
+
+  const getSelectGroupOptions = (groupName) => {
+    return uniqueValues((lists[groupName] || []).map(getListValue));
+  };
+
   const filtered = useMemo(() => {
     const q = cleanText(search).toLowerCase();
 
@@ -126,12 +164,12 @@ export default function TransactionPage({ type, title }) {
         label: col.label,
         type: col.type || (col.num ? "number" : "text"),
         options: col.select
-          ? categories
+          ? categoryOptions
           : col.selectGroup
-          ? lists[col.selectGroup]?.map((x) => x.value) || []
+          ? uniqueValues((lists[col.selectGroup] || []).map(getListValue))
           : [],
       }));
-  }, [columns, lists]);
+  }, [columns, categoryOptions, lists]);
 
   const lookup = async (next) => {
     const itemCode = cleanText(next.itemCode);
@@ -200,10 +238,12 @@ export default function TransactionPage({ type, title }) {
   };
 
   const startAdd = () => {
+    const firstCategory = categoryOptions[0] || "Inventory";
+
     if (type === "inward") {
       setDraft({
         deliveryDate: today(),
-        category: "Inventory",
+        category: firstCategory,
         itemCode: "",
         itemDescription: "",
         uom: "",
@@ -215,7 +255,7 @@ export default function TransactionPage({ type, title }) {
     } else {
       setDraft({
         date: today(),
-        category: "Inventory",
+        category: firstCategory,
         itemCode: "",
         itemDescription: "",
         uom: "",
@@ -268,14 +308,6 @@ export default function TransactionPage({ type, title }) {
     });
   };
 
-  const getCategoryOptions = () => {
-    const fromList =
-      lists.Category?.map((x) => x.value)
-        ?.filter((value) => categories.includes(value)) || [];
-
-    return fromList.length ? fromList : categories;
-  };
-
   const renderCell = (row, col, idx) => {
     const isEdit =
       editing === row._id || (editing === "new" && row._id === "new");
@@ -291,14 +323,12 @@ export default function TransactionPage({ type, title }) {
     }
 
     if (col.select) {
-      const opts = getCategoryOptions();
-
       return (
         <select
-          value={draft[col.key] || "Inventory"}
+          value={draft[col.key] || categoryOptions[0] || "Inventory"}
           onChange={(e) => setField(col.key, e.target.value)}
         >
-          {opts.map((categoryName) => (
+          {categoryOptions.map((categoryName) => (
             <option key={categoryName} value={categoryName}>
               {categoryName}
             </option>
@@ -308,7 +338,7 @@ export default function TransactionPage({ type, title }) {
     }
 
     if (col.selectGroup) {
-      const options = lists[col.selectGroup]?.map((x) => x.value) || [];
+      const options = getSelectGroupOptions(col.selectGroup);
 
       return (
         <select
