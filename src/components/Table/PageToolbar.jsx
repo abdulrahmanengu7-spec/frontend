@@ -23,10 +23,13 @@ export default function PageToolbar({
   onImportExcel,
   onDeleteAll,
   onFilter,
+  filterFields = [],
 }) {
   const { canWrite, canExport, canDelete } = useAuth();
   const fileRef = useRef(null);
   const [busy, setBusy] = useState(false);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
+  const [filterValues, setFilterValues] = useState({});
 
   const pickFile = () => fileRef.current?.click();
 
@@ -55,23 +58,30 @@ export default function PageToolbar({
     }
   };
 
-  const filterData = async () => {
-    setBusy(true);
-    try {
-      if (onFilter) {
-        await onFilter(search);
-      } else if (onRefresh) {
-        await onRefresh();
-      }
-    } finally {
-      setBusy(false);
-    }
+  const openFilterBox = () => {
+    setShowAdvancedFilter((prev) => !prev);
   };
 
-  const handleSearchKeyDown = (e) => {
-    if (e.key === "Enter") {
-      filterData();
+  const changeFilter = (key, value) => {
+    setFilterValues((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const applyAdvancedFilter = () => {
+    if (onFilter) {
+      onFilter(filterValues);
     }
+    setShowAdvancedFilter(false);
+  };
+
+  const clearAdvancedFilter = () => {
+    setFilterValues({});
+    if (onFilter) {
+      onFilter({});
+    }
+    setShowAdvancedFilter(false);
   };
 
   return (
@@ -80,70 +90,121 @@ export default function PageToolbar({
         <h1>{title}</h1>
       </div>
 
-      <div className="toolbar-actions">
-        <div className="search-box">
-          <FiSearch />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={handleSearchKeyDown}
-            placeholder="Search / Filter..."
-          />
+      <div className="toolbar-right-area">
+        <div className="toolbar-actions">
+          <div className="search-box">
+            <FiSearch />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search / Filter..."
+            />
+          </div>
+
+          <button type="button" onClick={openFilterBox}>
+            <FiFilter /> Filter
+          </button>
+
+          {canWrite && onAdd && (
+            <button type="button" onClick={onAdd} disabled={busy}>
+              <FiPlus /> Add Row
+            </button>
+          )}
+
+          {canWrite && onImportExcel && (
+            <button type="button" onClick={pickFile} disabled={busy}>
+              <FiUpload /> Import Excel
+            </button>
+          )}
+
+          {canWrite && onImportExcel && (
+            <input
+              ref={fileRef}
+              className="hidden-file"
+              type="file"
+              accept=".xlsx,.xls,.xlsm"
+              onChange={importFile}
+            />
+          )}
+
+          {canExport && onExportExcel && (
+            <button type="button" onClick={onExportExcel} disabled={busy}>
+              <FiDownload /> Export Excel
+            </button>
+          )}
+
+          {canExport && onExportPDF && (
+            <button type="button" onClick={onExportPDF} disabled={busy}>
+              <FiFileText /> Export PDF
+            </button>
+          )}
+
+          {onRefresh && (
+            <button type="button" onClick={refresh} disabled={busy}>
+              <FiRefreshCcw /> {busy ? "Working..." : "Refresh"}
+            </button>
+          )}
+
+          {canDelete && onDeleteAll && (
+            <button
+              type="button"
+              className="danger-toolbar-btn"
+              onClick={onDeleteAll}
+              disabled={busy}
+            >
+              <FiTrash2 /> Delete All
+            </button>
+          )}
         </div>
 
-        <button type="button" onClick={filterData} disabled={busy}>
-          <FiFilter /> Filter
-        </button>
+        {showAdvancedFilter && (
+          <div className="advanced-filter-box">
+            <div className="advanced-filter-header">
+              <h3>Advanced Filter</h3>
+              <button type="button" onClick={() => setShowAdvancedFilter(false)}>
+                ×
+              </button>
+            </div>
 
-        {canWrite && onAdd && (
-          <button type="button" onClick={onAdd} disabled={busy}>
-            <FiPlus /> Add Row
-          </button>
-        )}
+            <div className="advanced-filter-grid">
+              {filterFields.map((field) => (
+                <div className="advanced-filter-field" key={field.key}>
+                  <label>{field.label}</label>
 
-        {canWrite && onImportExcel && (
-          <button type="button" onClick={pickFile} disabled={busy}>
-            <FiUpload /> Import Excel
-          </button>
-        )}
+                  {field.options?.length ? (
+                    <select
+                      value={filterValues[field.key] || ""}
+                      onChange={(e) => changeFilter(field.key, e.target.value)}
+                    >
+                      <option value="">All</option>
+                      {field.options.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={field.type === "date" ? "date" : "text"}
+                      value={filterValues[field.key] || ""}
+                      onChange={(e) => changeFilter(field.key, e.target.value)}
+                      placeholder={`Filter by ${field.label}`}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
 
-        {canWrite && onImportExcel && (
-          <input
-            ref={fileRef}
-            className="hidden-file"
-            type="file"
-            accept=".xlsx,.xls,.xlsm"
-            onChange={importFile}
-          />
-        )}
+            <div className="advanced-filter-actions">
+              <button type="button" onClick={applyAdvancedFilter}>
+                Apply Filter
+              </button>
 
-        {canExport && onExportExcel && (
-          <button type="button" onClick={onExportExcel} disabled={busy}>
-            <FiDownload /> Export Excel
-          </button>
-        )}
-
-        {canExport && onExportPDF && (
-          <button type="button" onClick={onExportPDF} disabled={busy}>
-            <FiFileText /> Export PDF
-          </button>
-        )}
-
-        {onRefresh && (
-          <button type="button" onClick={refresh} disabled={busy}>
-            <FiRefreshCcw /> {busy ? "Working..." : "Refresh"}
-          </button>
-        )}
-
-        {canDelete && onDeleteAll && (
-          <button
-            type="button"
-            className="danger-toolbar-btn"
-            onClick={onDeleteAll}
-            disabled={busy}
-          >
-            <FiTrash2 /> Delete All
-          </button>
+              <button type="button" onClick={clearAdvancedFilter}>
+                Clear
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>
