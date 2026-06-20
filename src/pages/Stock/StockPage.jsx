@@ -35,25 +35,29 @@ export default function StockPage({ category, apiCategory, title }) {
         params: { q: search },
       });
 
-      setRows(res.data || []);
+      setRows(Array.isArray(res.data) ? res.data : []);
     } catch (e) {
+      console.error("Stock refresh failed:", e);
       toast.error(e.response?.data?.message || "Refresh failed");
     }
   };
 
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiCategory]);
 
   useEffect(() => {
     api
       .get("/lists")
       .then((res) => setLists(res.data || {}))
-      .catch(() => {});
+      .catch((e) => {
+        console.warn("Lists load failed:", e);
+      });
   }, []);
 
   const filtered = useMemo(() => {
-    const q = search.toLowerCase();
+    const q = String(search || "").toLowerCase();
 
     return rows.filter((r) => {
       return !q || JSON.stringify(r).toLowerCase().includes(q);
@@ -90,6 +94,10 @@ export default function StockPage({ category, apiCategory, title }) {
 
     return {
       ...next,
+      openingQty,
+      inwardQty,
+      issuedQty,
+      unitPrice,
       balanceQty,
       totalValue,
     };
@@ -113,8 +121,9 @@ export default function StockPage({ category, apiCategory, title }) {
       toast.success("Saved successfully");
       setEditing(null);
       setDraft({});
-      load();
+      await load();
     } catch (e) {
+      console.error("Stock save failed:", e);
       toast.error(e.response?.data?.message || "Save failed");
     }
   };
@@ -125,8 +134,9 @@ export default function StockPage({ category, apiCategory, title }) {
     try {
       await api.delete(`/stock/${id}`);
       toast.success("Deleted");
-      load();
+      await load();
     } catch (e) {
+      console.error("Stock delete failed:", e);
       toast.error(e.response?.data?.message || "Delete failed");
     }
   };
@@ -143,20 +153,36 @@ export default function StockPage({ category, apiCategory, title }) {
 
       const form = new FormData();
 
-      /*
-        IMPORTANT:
-        Backend route upload.single("file") use kar raha hai.
-        Is liye yahan field name "file" hi rehna chahiye.
-      */
+      // Backend route upload.single("file") use karta hai,
+      // is liye field name "file" hi rehna chahiye.
       form.append("file", file);
-      form.append("sheetName", title);
 
-      const res = await api.post(`/stock/${apiCategory}/import`, form);
+      // Backend is sheetName se Excel me matching sheet find karega.
+      // Example: Inventory, Non Inventory, Services, Patty Cash
+      form.append("sheetName", title || category || apiCategory);
 
-      toast.success(`Imported ${res.data?.imported || 0} rows in ${title}`);
-      load();
+      const res = await api.post(`/stock/${apiCategory}/import`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success(
+        res.data?.message ||
+          `Imported ${res.data?.imported || 0} rows in ${title}`
+      );
+
+      setEditing(null);
+      setDraft({});
+      await load();
     } catch (e) {
-      toast.error(e.response?.data?.message || "Excel import failed");
+      console.error("Excel import failed:", e);
+
+      toast.error(
+        e.response?.data?.message ||
+          e.message ||
+          "Excel import failed. Please check backend import route."
+      );
     }
   };
 
@@ -168,8 +194,9 @@ export default function StockPage({ category, apiCategory, title }) {
     try {
       const res = await api.delete(`/stock/${apiCategory}/all`);
       toast.success(`Deleted ${res.data?.deleted || 0} rows`);
-      load();
+      await load();
     } catch (e) {
+      console.error("Delete all failed:", e);
       toast.error(e.response?.data?.message || "Delete all failed");
     }
   };
@@ -178,7 +205,15 @@ export default function StockPage({ category, apiCategory, title }) {
     const isEdit = editing === r._id || (editing === "new" && r._id === "new");
 
     if (!isEdit) {
-      return col.key === "srNo" ? idx + 1 : r[col.key] ?? "";
+      if (col.key === "srNo") return idx + 1;
+
+      if (col.num || col.readOnly) {
+        return Number(r[col.key] || 0).toLocaleString("en-PK", {
+          maximumFractionDigits: 2,
+        });
+      }
+
+      return r[col.key] ?? "";
     }
 
     if (col.key === "srNo") {
