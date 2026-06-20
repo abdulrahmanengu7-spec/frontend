@@ -20,6 +20,14 @@ const columns = [
   { key: "location", label: "Location" },
 ];
 
+function cleanText(value) {
+  return String(value || "").trim();
+}
+
+function toNumber(value) {
+  return Number(value || 0);
+}
+
 export default function StockPage({ category, apiCategory, title }) {
   const { canWrite, canDelete } = useAuth();
 
@@ -29,10 +37,10 @@ export default function StockPage({ category, apiCategory, title }) {
   const [editing, setEditing] = useState(null);
   const [draft, setDraft] = useState({});
 
-  const load = async () => {
+  const load = async (q = search) => {
     try {
       const res = await api.get(`/stock/${apiCategory}`, {
-        params: { q: search },
+        params: { q },
       });
 
       setRows(Array.isArray(res.data) ? res.data : []);
@@ -43,7 +51,10 @@ export default function StockPage({ category, apiCategory, title }) {
   };
 
   useEffect(() => {
-    load();
+    setSearch("");
+    setEditing(null);
+    setDraft({});
+    load("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiCategory]);
 
@@ -57,12 +68,32 @@ export default function StockPage({ category, apiCategory, title }) {
   }, []);
 
   const filtered = useMemo(() => {
-    const q = String(search || "").toLowerCase();
+    const q = cleanText(search).toLowerCase();
+    if (!q) return rows;
 
-    return rows.filter((r) => {
-      return !q || JSON.stringify(r).toLowerCase().includes(q);
-    });
+    return rows.filter((r) => JSON.stringify(r).toLowerCase().includes(q));
   }, [rows, search]);
+
+  const recalcDraft = (next) => {
+    const openingQty = toNumber(next.openingQty);
+    const inwardQty = toNumber(next.inwardQty);
+    const issuedQty = toNumber(next.issuedQty);
+    const unitPrice = toNumber(next.unitPrice);
+
+    const balanceQty = openingQty + inwardQty - issuedQty;
+    const totalValue = balanceQty * unitPrice;
+
+    return {
+      ...next,
+      category,
+      openingQty,
+      inwardQty,
+      issuedQty,
+      unitPrice,
+      balanceQty,
+      totalValue,
+    };
+  };
 
   const startAdd = () => {
     const newRow = {
@@ -83,45 +114,42 @@ export default function StockPage({ category, apiCategory, title }) {
     setEditing("new");
   };
 
-  const recalcDraft = (next) => {
-    const openingQty = Number(next.openingQty || 0);
-    const inwardQty = Number(next.inwardQty || 0);
-    const issuedQty = Number(next.issuedQty || 0);
-    const unitPrice = Number(next.unitPrice || 0);
+  const startEdit = (row) => {
+    setEditing(row._id);
 
-    const balanceQty = openingQty + inwardQty - issuedQty;
-    const totalValue = balanceQty * unitPrice;
-
-    return {
-      ...next,
-      openingQty,
-      inwardQty,
-      issuedQty,
-      unitPrice,
-      balanceQty,
-      totalValue,
-    };
+    setDraft(
+      recalcDraft({
+        ...row,
+        category: row.category || category,
+      })
+    );
   };
 
   const save = async () => {
     try {
-      if (!draft.itemCode || !draft.itemDescription) {
+      const finalDraft = recalcDraft({
+        ...draft,
+        itemCode: cleanText(draft.itemCode),
+        itemDescription: cleanText(draft.itemDescription),
+        uom: cleanText(draft.uom),
+        location: cleanText(draft.location),
+        category,
+      });
+
+      if (!finalDraft.itemCode || !finalDraft.itemDescription) {
         return toast.error("Item Code and Description required");
       }
 
       if (editing === "new") {
-        await api.post(`/stock/${apiCategory}`, {
-          ...draft,
-          category,
-        });
+        await api.post(`/stock/${apiCategory}`, finalDraft);
       } else {
-        await api.put(`/stock/${editing}`, draft);
+        await api.put(`/stock/${editing}`, finalDraft);
       }
 
       toast.success("Saved successfully");
       setEditing(null);
       setDraft({});
-      await load();
+      await load(search);
     } catch (e) {
       console.error("Stock save failed:", e);
       toast.error(e.response?.data?.message || "Save failed");
@@ -134,7 +162,7 @@ export default function StockPage({ category, apiCategory, title }) {
     try {
       await api.delete(`/stock/${id}`);
       toast.success("Deleted");
-      await load();
+      await load(search);
     } catch (e) {
       console.error("Stock delete failed:", e);
       toast.error(e.response?.data?.message || "Delete failed");
@@ -152,14 +180,9 @@ export default function StockPage({ category, apiCategory, title }) {
       }
 
       const form = new FormData();
-
-      // Backend route upload.single("file") use karta hai,
-      // is liye field name "file" hi rehna chahiye.
       form.append("file", file);
-
-      // Backend is sheetName se Excel me matching sheet find karega.
-      // Example: Inventory, Non Inventory, Services, Patty Cash
       form.append("sheetName", title || category || apiCategory);
+      form.append("category", category);
 
       const res = await api.post(`/stock/${apiCategory}/import`, form, {
         headers: {
@@ -168,16 +191,14 @@ export default function StockPage({ category, apiCategory, title }) {
       });
 
       toast.success(
-        res.data?.message ||
-          `Imported ${res.data?.imported || 0} rows in ${title}`
+        res.data?.message || `Imported ${res.data?.imported || 0} rows in ${title}`
       );
 
       setEditing(null);
       setDraft({});
-      await load();
+      await load(search);
     } catch (e) {
       console.error("Excel import failed:", e);
-
       toast.error(
         e.response?.data?.message ||
           e.message ||
@@ -194,7 +215,7 @@ export default function StockPage({ category, apiCategory, title }) {
     try {
       const res = await api.delete(`/stock/${apiCategory}/all`);
       toast.success(`Deleted ${res.data?.deleted || 0} rows`);
-      await load();
+      await load(search);
     } catch (e) {
       console.error("Delete all failed:", e);
       toast.error(e.response?.data?.message || "Delete all failed");
@@ -227,7 +248,12 @@ export default function StockPage({ category, apiCategory, title }) {
         <select
           value={draft[col.key] ?? ""}
           onChange={(e) =>
-            setDraft(recalcDraft({ ...draft, [col.key]: e.target.value }))
+            setDraft(
+              recalcDraft({
+                ...draft,
+                [col.key]: e.target.value,
+              })
+            )
           }
         >
           <option value="">Select</option>
@@ -247,7 +273,12 @@ export default function StockPage({ category, apiCategory, title }) {
         value={draft[col.key] ?? ""}
         type={col.num ? "number" : "text"}
         onChange={(e) =>
-          setDraft(recalcDraft({ ...draft, [col.key]: e.target.value }))
+          setDraft(
+            recalcDraft({
+              ...draft,
+              [col.key]: e.target.value,
+            })
+          )
         }
       />
     );
@@ -263,8 +294,8 @@ export default function StockPage({ category, apiCategory, title }) {
         search={search}
         setSearch={setSearch}
         onAdd={startAdd}
-        onRefresh={load}
-        onFilter={load}
+        onRefresh={() => load(search)}
+        onFilter={(q) => load(q)}
         onDeleteAll={deleteAll}
         onExportExcel={() => exportRowsExcel(filtered, `${title}.xlsx`)}
         onExportPDF={() =>
@@ -290,49 +321,47 @@ export default function StockPage({ category, apiCategory, title }) {
           </thead>
 
           <tbody>
-            {data.map((r, idx) => (
-              <tr key={r._id}>
-                {columns.map((c) => (
-                  <td key={c.key}>{renderCell(r, c, idx)}</td>
-                ))}
+            {data.map((r, idx) => {
+              const isCurrentEdit =
+                editing === r._id || (editing === "new" && r._id === "new");
 
-                <td className="action-cell">
-                  {canWrite && (editing === r._id || r._id === "new") && (
-                    <button className="save-btn" onClick={save}>
-                      Save
-                    </button>
-                  )}
+              return (
+                <tr key={r._id}>
+                  {columns.map((c) => (
+                    <td key={c.key}>{renderCell(r, c, idx)}</td>
+                  ))}
 
-                  {canWrite && editing !== r._id && r._id !== "new" && (
-                    <button
-                      onClick={() => {
-                        setEditing(r._id);
-                        setDraft(r);
-                      }}
-                    >
-                      Edit
-                    </button>
-                  )}
+                  <td className="action-cell">
+                    {canWrite && isCurrentEdit && (
+                      <button className="save-btn" onClick={save}>
+                        Save
+                      </button>
+                    )}
 
-                  {canWrite && editing && (
-                    <button
-                      onClick={() => {
-                        setEditing(null);
-                        setDraft({});
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  )}
+                    {canWrite && !isCurrentEdit && r._id !== "new" && (
+                      <button onClick={() => startEdit(r)}>Edit</button>
+                    )}
 
-                  {canDelete && r._id !== "new" && (
-                    <button className="delete-btn" onClick={() => del(r._id)}>
-                      Delete
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
+                    {canWrite && isCurrentEdit && (
+                      <button
+                        onClick={() => {
+                          setEditing(null);
+                          setDraft({});
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    )}
+
+                    {canDelete && r._id !== "new" && (
+                      <button className="delete-btn" onClick={() => del(r._id)}>
+                        Delete
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
 
             {data.length === 0 && (
               <tr>
