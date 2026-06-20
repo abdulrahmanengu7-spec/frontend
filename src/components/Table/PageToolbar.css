@@ -8,12 +8,15 @@
   gap: 16px;
   margin-bottom: 16px;
   align-items: center;
+  position: relative;
+  z-index: 20;
 }
 
 .page-toolbar h1 {
   margin: 0;
   color: #bd1017;
   font-size: 24px;
+  font-weight: 900;
   white-space: nowrap;
 }
 
@@ -47,15 +50,18 @@
   gap: 6px;
   font-weight: 800;
   color: #374151;
+  min-height: 42px;
 }
 
 .toolbar-actions button {
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
 .toolbar-actions button:hover {
   color: #bd1017;
   border-color: #bd1017;
+  background: #fff5f6;
 }
 
 .toolbar-actions button:disabled {
@@ -63,11 +69,21 @@
   cursor: not-allowed;
 }
 
+.search-box {
+  min-width: 220px;
+}
+
 .search-box input {
   border: 0;
   outline: 0;
   min-width: 180px;
   font-size: 14px;
+  background: transparent;
+  color: #111827;
+}
+
+.search-box input::placeholder {
+  color: #9ca3af;
 }
 
 .hidden-file {
@@ -83,6 +99,7 @@
 .danger-toolbar-btn:hover {
   background: #b91c1c !important;
   color: #ffffff !important;
+  border-color: #b91c1c !important;
 }
 
 /* Advanced Filter Box */
@@ -91,13 +108,13 @@
   position: absolute;
   top: 58px;
   right: 0;
-  width: min(760px, 95vw);
+  width: min(820px, 95vw);
   background: #ffffff;
   border: 1px solid #d7dde8;
   border-radius: 14px;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
   padding: 16px;
-  z-index: 9999;
+  z-index: 99999;
 }
 
 .advanced-filter-header {
@@ -105,11 +122,14 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eef2f7;
 }
 
 .advanced-filter-header h3 {
   margin: 0;
   font-size: 18px;
+  font-weight: 900;
   color: #111827;
 }
 
@@ -127,6 +147,7 @@
 
 .advanced-filter-header button:hover {
   background: #e2e8f0;
+  color: #bd1017;
 }
 
 .advanced-filter-empty {
@@ -142,6 +163,27 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(160px, 1fr));
   gap: 12px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.advanced-filter-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.advanced-filter-grid::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.advanced-filter-grid::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.advanced-filter-grid::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 .advanced-filter-field {
@@ -152,7 +194,7 @@
 
 .advanced-filter-field label {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   color: #334155;
 }
 
@@ -166,6 +208,7 @@
   outline: none;
   background: #ffffff;
   color: #111827;
+  width: 100%;
 }
 
 .advanced-filter-field input:focus,
@@ -174,11 +217,17 @@
   box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
 }
 
+.advanced-filter-field input::placeholder {
+  color: #9ca3af;
+}
+
 .advanced-filter-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #eef2f7;
 }
 
 .advanced-filter-actions button {
@@ -186,10 +235,11 @@
   border-radius: 8px;
   border: 1px solid #d7dde8;
   padding: 0 16px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   background: #ffffff;
   color: #374151;
+  transition: 0.2s ease;
 }
 
 .advanced-filter-actions button:first-child {
@@ -201,11 +251,13 @@
 .advanced-filter-actions button:first-child:hover {
   background: #a90d25;
   border-color: #a90d25;
+  color: #ffffff;
 }
 
 .advanced-filter-actions button:last-child:hover {
   border-color: #c8102e;
   color: #c8102e;
+  background: #fff5f6;
 }
 
 /* Responsive */
@@ -226,6 +278,7 @@
 
   .search-box {
     width: 100%;
+    min-width: 0;
   }
 
   .search-box input {
@@ -243,10 +296,13 @@
     width: auto;
     max-height: calc(100vh - 110px);
     overflow-y: auto;
+    z-index: 99999;
   }
 
   .advanced-filter-grid {
     grid-template-columns: 1fr;
+    max-height: none;
+    overflow-y: visible;
   }
 
   .advanced-filter-actions {
@@ -255,5 +311,26 @@
 
   .advanced-filter-actions button {
     flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-toolbar {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .page-toolbar h1 {
+    font-size: 20px;
+  }
+
+  .toolbar-actions button,
+  .search-box {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .advanced-filter-actions {
+    flex-direction: column;
   }
 }
