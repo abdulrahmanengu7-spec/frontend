@@ -171,6 +171,30 @@ export default function TransactionPage({ type, title }) {
       }));
   }, [columns, categoryOptions, lists]);
 
+  const recalcTransactionDraft = (next) => {
+    const unitPrice = Number(next.unitPrice || 0);
+    const qtyReceived = Number(next.qtyReceived || 0);
+    const qtyIssued = Number(next.qtyIssued || 0);
+    const stockBalance = Number(
+      next._stockBalance ?? next.openQty ?? next.balanceQty ?? 0
+    );
+
+    if (type === "inward") {
+      return {
+        ...next,
+        openQty: stockBalance,
+        total: qtyReceived * unitPrice,
+        balanceQty: stockBalance + qtyReceived,
+      };
+    }
+
+    return {
+      ...next,
+      balanceQty: stockBalance - qtyIssued,
+      total: qtyIssued * unitPrice,
+    };
+  };
+
   const lookup = async (next) => {
     const itemCode = cleanText(next.itemCode);
     const category = cleanText(next.category);
@@ -186,13 +210,10 @@ export default function TransactionPage({ type, title }) {
       });
 
       const item = res.data || {};
-
       const stockBalance = Number(item.balanceQty || 0);
       const unitPrice = Number(item.unitPrice || 0);
-      const qtyReceived = Number(next.qtyReceived || 0);
-      const qtyIssued = Number(next.qtyIssued || 0);
 
-      return {
+      const withStock = {
         ...next,
         itemCode,
         category,
@@ -200,15 +221,10 @@ export default function TransactionPage({ type, title }) {
         uom: item.uom || "",
         unitPrice,
         openQty: stockBalance,
-        balanceQty:
-          type === "issuance"
-            ? stockBalance - qtyIssued
-            : stockBalance + qtyReceived,
-        total:
-          type === "inward"
-            ? qtyReceived * unitPrice
-            : qtyIssued * unitPrice,
+        _stockBalance: stockBalance,
       };
+
+      return recalcTransactionDraft(withStock);
     } catch (e) {
       toast.error("Item not found in selected category");
 
@@ -220,21 +236,31 @@ export default function TransactionPage({ type, title }) {
         openQty: 0,
         balanceQty: 0,
         total: 0,
+        _stockBalance: 0,
       };
     }
   };
 
-  const setField = async (key, value) => {
+  const runLookup = async (baseDraft = draft) => {
+    const next = await lookup(baseDraft);
+    setDraft(next);
+  };
+
+  const setField = (key, value) => {
     let next = {
       ...draft,
       [key]: value,
     };
 
-    if (["itemCode", "category", "qtyReceived", "qtyIssued"].includes(key)) {
-      next = await lookup(next);
+    if (["qtyReceived", "qtyIssued"].includes(key)) {
+      next = recalcTransactionDraft(next);
     }
 
     setDraft(next);
+
+    if (key === "category" && cleanText(next.itemCode)) {
+      runLookup(next);
+    }
   };
 
   const startAdd = () => {
@@ -251,6 +277,7 @@ export default function TransactionPage({ type, title }) {
         openQty: 0,
         unitPrice: 0,
         total: 0,
+        _stockBalance: 0,
       });
     } else {
       setDraft({
@@ -263,6 +290,7 @@ export default function TransactionPage({ type, title }) {
         balanceQty: 0,
         unitPrice: 0,
         total: 0,
+        _stockBalance: 0,
       });
     }
 
@@ -271,10 +299,13 @@ export default function TransactionPage({ type, title }) {
 
   const save = async () => {
     try {
+      const cleanDraft = { ...draft };
+      delete cleanDraft._stockBalance;
+
       if (editing === "new") {
-        await api.post(`/transactions/${type}`, draft);
+        await api.post(`/transactions/${type}`, cleanDraft);
       } else {
-        await api.put(`/transactions/${editing}`, draft);
+        await api.put(`/transactions/${editing}`, cleanDraft);
       }
 
       toast.success("Saved and stock updated");
@@ -305,6 +336,7 @@ export default function TransactionPage({ type, title }) {
       ...row,
       date: dateValue(row.date),
       deliveryDate: dateValue(row.deliveryDate),
+      _stockBalance: Number(row.openQty ?? row.balanceQty ?? 0),
     });
   };
 
@@ -366,6 +398,23 @@ export default function TransactionPage({ type, title }) {
             : draft[col.key] ?? ""
         }
         onChange={(e) => setField(col.key, e.target.value)}
+        onBlur={(e) => {
+          if (col.key === "itemCode") {
+            runLookup({
+              ...draft,
+              itemCode: e.target.value,
+            });
+          }
+        }}
+        onKeyDown={(e) => {
+          if (col.key === "itemCode" && e.key === "Enter") {
+            e.preventDefault();
+            runLookup({
+              ...draft,
+              itemCode: e.currentTarget.value,
+            });
+          }
+        }}
       />
     );
   };
