@@ -26,12 +26,20 @@ export default function PageToolbar({
   filterFields = [],
 }) {
   const { canWrite, canExport, canDelete } = useAuth();
+
   const fileRef = useRef(null);
+
   const [busy, setBusy] = useState(false);
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
   const [filterValues, setFilterValues] = useState({});
 
-  const pickFile = () => fileRef.current?.click();
+  const activeFilterCount = Object.values(filterValues).filter(
+    (value) => String(value || "").trim() !== ""
+  ).length;
+
+  const pickFile = () => {
+    fileRef.current?.click();
+  };
 
   const importFile = async (e) => {
     const file = e.target.files?.[0];
@@ -40,6 +48,7 @@ export default function PageToolbar({
     if (!file || !onImportExcel) return;
 
     setBusy(true);
+
     try {
       await onImportExcel(file);
     } finally {
@@ -51,6 +60,7 @@ export default function PageToolbar({
     if (!onRefresh) return;
 
     setBusy(true);
+
     try {
       await onRefresh();
     } finally {
@@ -73,15 +83,24 @@ export default function PageToolbar({
     if (onFilter) {
       onFilter(filterValues);
     }
+
     setShowAdvancedFilter(false);
   };
 
   const clearAdvancedFilter = () => {
     setFilterValues({});
+
     if (onFilter) {
       onFilter({});
     }
+
     setShowAdvancedFilter(false);
+  };
+
+  const handleFilterKeyDown = (e) => {
+    if (e.key === "Enter") {
+      applyAdvancedFilter();
+    }
   };
 
   return (
@@ -94,15 +113,17 @@ export default function PageToolbar({
         <div className="toolbar-actions">
           <div className="search-box">
             <FiSearch />
+
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search / Filter..."
+              placeholder="Search..."
             />
           </div>
 
           <button type="button" onClick={openFilterBox}>
-            <FiFilter /> Filter
+            <FiFilter />
+            Filter {activeFilterCount > 0 ? `(${activeFilterCount})` : ""}
           </button>
 
           {canWrite && onAdd && (
@@ -161,39 +182,61 @@ export default function PageToolbar({
           <div className="advanced-filter-box">
             <div className="advanced-filter-header">
               <h3>Advanced Filter</h3>
-              <button type="button" onClick={() => setShowAdvancedFilter(false)}>
+
+              <button
+                type="button"
+                onClick={() => setShowAdvancedFilter(false)}
+              >
                 ×
               </button>
             </div>
 
-            <div className="advanced-filter-grid">
-              {filterFields.map((field) => (
-                <div className="advanced-filter-field" key={field.key}>
-                  <label>{field.label}</label>
+            {filterFields.length === 0 ? (
+              <div className="advanced-filter-empty">
+                No filter fields available
+              </div>
+            ) : (
+              <div className="advanced-filter-grid">
+                {filterFields.map((field) => (
+                  <div className="advanced-filter-field" key={field.key}>
+                    <label>{field.label}</label>
 
-                  {field.options?.length ? (
-                    <select
-                      value={filterValues[field.key] || ""}
-                      onChange={(e) => changeFilter(field.key, e.target.value)}
-                    >
-                      <option value="">All</option>
-                      {field.options.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      type={field.type === "date" ? "date" : "text"}
-                      value={filterValues[field.key] || ""}
-                      onChange={(e) => changeFilter(field.key, e.target.value)}
-                      placeholder={`Filter by ${field.label}`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
+                    {field.options?.length ? (
+                      <select
+                        value={filterValues[field.key] || ""}
+                        onChange={(e) =>
+                          changeFilter(field.key, e.target.value)
+                        }
+                      >
+                        <option value="">All</option>
+
+                        {field.options.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        type={
+                          field.type === "date"
+                            ? "date"
+                            : field.type === "number"
+                            ? "number"
+                            : "text"
+                        }
+                        value={filterValues[field.key] || ""}
+                        onChange={(e) =>
+                          changeFilter(field.key, e.target.value)
+                        }
+                        onKeyDown={handleFilterKeyDown}
+                        placeholder={`Filter by ${field.label}`}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="advanced-filter-actions">
               <button type="button" onClick={applyAdvancedFilter}>
