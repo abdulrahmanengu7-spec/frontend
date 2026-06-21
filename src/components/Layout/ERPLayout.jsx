@@ -127,7 +127,6 @@ export default function ERPLayout() {
   const { theme, isDark, toggleTheme } = useTheme();
 
   const navigate = useNavigate();
-
   const role = String(user?.role || "").toLowerCase();
 
   const isAdminRole = useMemo(() => {
@@ -144,10 +143,7 @@ export default function ERPLayout() {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const scrollToBottom = () => {
@@ -178,7 +174,6 @@ export default function ERPLayout() {
 
     try {
       const res = await api.put("/auth/profile", profile);
-
       setUser(res.data.user || res.data);
       toast.success("Profile updated");
     } catch (e) {
@@ -328,10 +323,7 @@ export default function ERPLayout() {
                 <input
                   value={profile.name}
                   onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      name: e.target.value,
-                    })
+                    setProfile({ ...profile, name: e.target.value })
                   }
                 />
               </label>
@@ -341,10 +333,7 @@ export default function ERPLayout() {
                 <input
                   value={profile.department}
                   onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      department: e.target.value,
-                    })
+                    setProfile({ ...profile, department: e.target.value })
                   }
                 />
               </label>
@@ -354,10 +343,7 @@ export default function ERPLayout() {
                 <input
                   value={profile.phone}
                   onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      phone: e.target.value,
-                    })
+                    setProfile({ ...profile, phone: e.target.value })
                   }
                 />
               </label>
@@ -379,10 +365,7 @@ export default function ERPLayout() {
                   type="password"
                   value={password.oldPassword}
                   onChange={(e) =>
-                    setPassword({
-                      ...password,
-                      oldPassword: e.target.value,
-                    })
+                    setPassword({ ...password, oldPassword: e.target.value })
                   }
                 />
               </label>
@@ -393,10 +376,7 @@ export default function ERPLayout() {
                   type="password"
                   value={password.newPassword}
                   onChange={(e) =>
-                    setPassword({
-                      ...password,
-                      newPassword: e.target.value,
-                    })
+                    setPassword({ ...password, newPassword: e.target.value })
                   }
                 />
               </label>
@@ -438,4 +418,4 @@ export default function ERPLayout() {
       </div>
     </div>
   );
-                }
+}
