@@ -340,63 +340,77 @@
   cursor: not-allowed;
 }
 
-/* Action Buttons — Same Size + Margin */
+/* Action Buttons — Edit/Delete same size */
+
+.admin-table th:last-child,
+.admin-table td:last-child {
+  width: 140px;
+  min-width: 140px;
+  text-align: center;
+}
 
 .admin-table td:last-child {
-  min-width: 120px;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
 }
 
 .admin-table td:last-child button,
 .admin-edit-btn,
-.admin-delete-btn {
-  width: 92px;
-  height: 38px;
-  margin: 5px 0;
-  border: 0;
-  border-radius: 12px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  font-size: 13px;
-  font-weight: 950;
-  line-height: 1;
+.admin-delete-btn,
+.edit-btn,
+.delete-btn {
+  width: 96px !important;
+  height: 40px !important;
+  min-width: 96px !important;
+  margin: 6px auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  font-size: 13px !important;
+  font-weight: 950 !important;
+  line-height: 1 !important;
   cursor: pointer;
   transition: 0.2s ease;
-}
-
-.admin-table td:last-child button + button {
-  margin-top: 8px;
+  white-space: nowrap;
 }
 
 .admin-edit-btn,
-.admin-table td:last-child button:not(.admin-delete-btn) {
-  background: #0f6ea8;
-  color: #ffffff;
+.edit-btn,
+.admin-table td:last-child button:not(.admin-delete-btn):not(.delete-btn) {
+  background: #bd1017 !important;
+  color: #ffffff !important;
 }
 
 .admin-edit-btn:hover,
-.admin-table td:last-child button:not(.admin-delete-btn):hover {
-  background: #075985;
+.edit-btn:hover,
+.admin-table td:last-child button:not(.admin-delete-btn):not(.delete-btn):hover {
+  background: #991b1b !important;
   transform: translateY(-1px);
 }
 
-.admin-delete-btn {
-  background: #dc2626;
-  color: #ffffff;
+.admin-delete-btn,
+.delete-btn {
+  background: #dc2626 !important;
+  color: #ffffff !important;
 }
 
-.admin-delete-btn:hover {
-  background: #b91c1c;
+.admin-delete-btn:hover,
+.delete-btn:hover {
+  background: #b91c1c !important;
   transform: translateY(-1px);
 }
 
 .admin-delete-btn:disabled,
+.delete-btn:disabled,
 .admin-table td:last-child button:disabled {
-  background: #fecaca;
-  color: #ffffff;
+  background: #fecaca !important;
+  color: #ffffff !important;
   cursor: not-allowed;
-  transform: none;
+  transform: none !important;
 }
 
 .no-access {
@@ -602,14 +616,23 @@
     font-size: 12px;
   }
 
+  .admin-table th:last-child,
+  .admin-table td:last-child {
+    width: 128px;
+    min-width: 128px;
+  }
+
   .admin-table td:last-child button,
   .admin-edit-btn,
-  .admin-delete-btn {
-    width: 86px;
-    height: 36px;
-    margin: 5px 0;
-    font-size: 12px;
-    border-radius: 11px;
+  .admin-delete-btn,
+  .edit-btn,
+  .delete-btn {
+    width: 92px !important;
+    height: 38px !important;
+    min-width: 92px !important;
+    margin: 6px auto !important;
+    font-size: 12px !important;
+    border-radius: 11px !important;
   }
 }
 
@@ -639,4 +662,4 @@
     height: 46px;
     border-radius: 15px;
   }
-  }
+}
