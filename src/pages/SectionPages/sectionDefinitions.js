@@ -5,7 +5,6 @@ export const sectionPages = {
     title: "Outward Gate Pass Records",
     sheetTitle: "RETURNABLE OUTWARD GATE PASS RECORD",
     groupTitle: "ITEM DETAILS  |  OUTWARD RECORD  |  INWARD RECORD",
-    
     theme: "gatepass",
     columns: [
       { key: "S/N", label: "S/N", width: 70 },
@@ -24,13 +23,13 @@ export const sectionPages = {
       { key: "Remarks", label: "Remarks", width: 170 },
     ],
   },
+
   iutnOutward: {
     sectionKey: "section-5",
     pageKey: "iutn-outward-record",
     title: "IUTN Outward Record",
     sheetTitle: "RETURNABLE OUTWARD GATE PASS RECORD",
     groupTitle: "ITEM DETAILS  |  INWARD RECORD  |  OUTWARD RECORD",
-   
     theme: "gatepass",
     columns: [
       { key: "S/N", label: "S/N", width: 70 },
@@ -49,6 +48,7 @@ export const sectionPages = {
       { key: "Remarks", label: "Remarks", width: 170 },
     ],
   },
+
   fuelDashboard: {
     sectionKey: "section-6",
     pageKey: "executive-dashboard",
@@ -65,36 +65,57 @@ export const sectionPages = {
       { key: "Total Price (Rs.)", label: "Total Price (Rs.)", type: "number", width: 170 },
     ],
   },
+
   monthlyTravel: {
     sectionKey: "section-6",
     pageKey: "monthly-travel-entries",
     title: "Monthly Travel Entries",
     sheetTitle: "ENGINEERING - TRAVEL & FUEL CONSUMPTION RECORDS",
     groupTitle: "Travel & Fuel Consumption Records",
-  
     theme: "fuel",
     columns: [
       { key: "Date", label: "Date", type: "date", width: 150 },
       { key: "Month", label: "Month", width: 140, readOnly: true },
-      { key: "Purpose / Justification of Visit", label: "Purpose / Justification of Visit", width: 390 },
+      {
+        key: "Purpose / Justification of Visit",
+        label: "Purpose / Justification of Visit",
+        width: 390,
+      },
       { key: "From Location", label: "From Location", width: 130 },
       { key: "To Market / Vendor", label: "To Market / Vendor", width: 240 },
       { key: "No. of Trips", label: "No. of Trips", type: "number", width: 115 },
       { key: "Going Dist.(KM)", label: "Going Dist.(KM)", type: "number", width: 135 },
       { key: "Return Dist.(KM)", label: "Return Dist.(KM)", type: "number", width: 145 },
-      { key: "Total Dist.(KM)", label: "Total Dist.(KM)", type: "number", width: 140, readOnly: true },
+      {
+        key: "Total Dist.(KM)",
+        label: "Total Dist.(KM)",
+        type: "number",
+        width: 140,
+        readOnly: true,
+      },
       { key: "Fuel Paid (Rs.)", label: "Fuel Paid (Rs.)", type: "number", width: 140 },
-      { key: "Fuel Rate (Rs./Ltr)", label: "Fuel Rate (Rs./Ltr)", type: "number", width: 150 },
-      { key: "Petrol (Liters)", label: "Petrol (Liters)", type: "number", width: 140, readOnly: true },
+      {
+        key: "Fuel Rate (Rs./Ltr)",
+        label: "Fuel Rate (Rs./Ltr)",
+        type: "number",
+        width: 150,
+      },
+      {
+        key: "Petrol (Liters)",
+        label: "Petrol (Liters)",
+        type: "number",
+        width: 140,
+        readOnly: true,
+      },
     ],
   },
+
   toolsIssuance: {
     sectionKey: "section-7",
     pageKey: "tools-issuance",
     title: "Tools Issuance",
     sheetTitle: "NAME WISE TOOLS ISSUED — FULL DETAIL LIST",
     groupTitle: "Tools Issuance Register",
-    
     theme: "tools",
     columns: [
       { key: "SR #", label: "SR #", width: 85 },
@@ -104,6 +125,7 @@ export const sectionPages = {
       { key: "QTY ISSUED", label: "QTY ISSUED", type: "number", width: 120 },
       { key: "REPLACEMENT", label: "REPLACEMENT", width: 220 },
       { key: "REMARKS / CONDITION", label: "REMARKS / CONDITION", width: 340 },
+      { key: "Issued To", label: "Issued To", width: 190 },
     ],
   },
 };
