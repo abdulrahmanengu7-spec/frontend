@@ -278,7 +278,8 @@ table,
 :root[data-theme="dark"] .auth-wrapper,
 :root[data-theme="dark"] .login-page,
 :root[data-theme="dark"] .signup-page,
-:root[data-theme="dark"] .forgot-page {
+:root[data-theme="dark"] .forgot-page,
+:root[data-theme="dark"] .auth-layout {
   background:
     radial-gradient(circle at top left, rgba(239, 35, 60, 0.18), transparent 32%),
     radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.12), transparent 36%),
@@ -305,20 +306,42 @@ table,
 :root[data-theme="dark"] .auth-card p,
 :root[data-theme="dark"] .auth-card small,
 :root[data-theme="dark"] .auth-subtitle,
-:root[data-theme="dark"] .remember-text {
+:root[data-theme="dark"] .remember-text,
+:root[data-theme="dark"] .remember,
+:root[data-theme="dark"] .auth-check {
   color: #cbd5e1 !important;
 }
 
+/* Logo background remove + professional size */
+
+.auth-logo,
+.auth-card img.auth-logo,
+:root[data-theme="dark"] .auth-logo,
 :root[data-theme="dark"] .auth-card img,
-:root[data-theme="dark"] .auth-logo {
-  background: #ffffff !important;
-  border-radius: 8px;
-  padding: 6px;
+:root[data-theme="dark"] img.auth-logo {
+  height: 110px !important;
+  width: auto !important;
+  max-width: 190px !important;
+  object-fit: contain !important;
+  display: block !important;
+  margin: 0 auto 14px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+:root[data-theme="dark"] .auth-logo,
+:root[data-theme="dark"] .auth-card img,
+:root[data-theme="dark"] img.auth-logo {
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
 }
 
 :root[data-theme="dark"] .input-box,
 :root[data-theme="dark"] .auth-input,
-:root[data-theme="dark"] .input-group {
+:root[data-theme="dark"] .input-group,
+:root[data-theme="dark"] .input-wrap {
   background: #0b1220 !important;
   border: 1px solid #334155 !important;
   color: #f8fafc !important;
@@ -327,6 +350,7 @@ table,
 :root[data-theme="dark"] .input-box input,
 :root[data-theme="dark"] .auth-input input,
 :root[data-theme="dark"] .input-group input,
+:root[data-theme="dark"] .input-wrap input,
 :root[data-theme="dark"] .auth-card input {
   background: #0b1220 !important;
   color: #f8fafc !important;
@@ -339,19 +363,22 @@ table,
 
 :root[data-theme="dark"] .input-box svg,
 :root[data-theme="dark"] .auth-input svg,
-:root[data-theme="dark"] .input-group svg {
+:root[data-theme="dark"] .input-group svg,
+:root[data-theme="dark"] .input-wrap svg {
   color: #cbd5e1 !important;
 }
 
 :root[data-theme="dark"] .auth-card a,
 :root[data-theme="dark"] .forgot-link,
-:root[data-theme="dark"] .signup-link {
+:root[data-theme="dark"] .signup-link,
+:root[data-theme="dark"] .auth-link {
   color: #fb7185 !important;
 }
 
 :root[data-theme="dark"] .auth-card button[type="submit"],
 :root[data-theme="dark"] .auth-submit,
-:root[data-theme="dark"] .login-btn {
+:root[data-theme="dark"] .login-btn,
+:root[data-theme="dark"] .auth-button {
   background: linear-gradient(135deg, #ef233c, #b91c1c) !important;
   color: #ffffff !important;
   border: 0 !important;
@@ -360,7 +387,8 @@ table,
 
 :root[data-theme="dark"] .auth-card button[type="submit"]:hover,
 :root[data-theme="dark"] .auth-submit:hover,
-:root[data-theme="dark"] .login-btn:hover {
+:root[data-theme="dark"] .login-btn:hover,
+:root[data-theme="dark"] .auth-button:hover {
   background: linear-gradient(135deg, #fb7185, #dc2626) !important;
 }
 
@@ -421,3 +449,15 @@ table,
 :root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
   background: #64748b;
 }
+
+@media (max-width: 520px) {
+  .auth-logo,
+  .auth-card img.auth-logo,
+  :root[data-theme="dark"] .auth-logo,
+  :root[data-theme="dark"] .auth-card img,
+  :root[data-theme="dark"] img.auth-logo {
+    height: 96px !important;
+    max-width: 170px !important;
+    margin-bottom: 12px !important;
+  }
+    }
