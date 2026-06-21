@@ -49,11 +49,7 @@ const sections = [
     title: "SECTION 3 — TRANSACTIONS",
     items: [
       { to: "/daily-inward", label: "Inward (Stock Add)", icon: <FiTruck /> },
-      {
-        to: "/daily-issuance",
-        label: "Issuance (Stock Minus)",
-        icon: <FiClipboard />,
-      },
+      { to: "/daily-issuance", label: "Issuance (Stock Minus)", icon: <FiClipboard /> },
     ],
   },
   {
@@ -67,43 +63,21 @@ const sections = [
   {
     title: "SECTION 5 — INWARDS / OUTWARDS",
     items: [
-      {
-        to: "/outward-gate-pass-records",
-        label: "Outward Gate Pass Records",
-        icon: <FiFileText />,
-      },
-      {
-        to: "/iutn-outward-record",
-        label: "IUTN Outward Record",
-        icon: <FiTruck />,
-      },
+      { to: "/outward-gate-pass-records", label: "Outward Gate Pass Records", icon: <FiFileText /> },
+      { to: "/iutn-outward-record", label: "IUTN Outward Record", icon: <FiTruck /> },
     ],
   },
   {
     title: "SECTION 6 — FUEL CONSUMPTION",
     adminOnly: true,
     items: [
-      {
-        to: "/fuel-executive-dashboard",
-        label: "Petrol Consumption Dashboard",
-        icon: <FiBarChart2 />,
-      },
-      {
-        to: "/monthly-travel-entries",
-        label: "Monthly Travel Entries",
-        icon: <FiDollarSign />,
-      },
+      { to: "/fuel-executive-dashboard", label: "Petrol Consumption Dashboard", icon: <FiBarChart2 /> },
+      { to: "/monthly-travel-entries", label: "Monthly Travel Entries", icon: <FiDollarSign /> },
     ],
   },
   {
     title: "SECTION 7 — TOOLS ISSUANCE",
-    items: [
-      {
-        to: "/tools-issuance",
-        label: "Tools Issuance",
-        icon: <FiTool />,
-      },
-    ],
+    items: [{ to: "/tools-issuance", label: "Tools Issuance", icon: <FiTool /> }],
   },
 ];
 
@@ -125,8 +99,8 @@ export default function ERPLayout() {
 
   const { user, logout, refreshProfile, setUser } = useAuth();
   const { theme, isDark, toggleTheme } = useTheme();
-
   const navigate = useNavigate();
+
   const role = String(user?.role || "").toLowerCase();
 
   const isAdminRole = useMemo(() => {
@@ -226,7 +200,8 @@ export default function ERPLayout() {
           </button>
 
           <div className="erp-title">
-            LOTTE KOLSON STORE MANAGEMENT SYSTEM
+            <span>LOTTE KOLSON STORE</span>
+            <span>MANAGEMENT SYSTEM</span>
           </div>
 
           <div className="erp-user-actions">
@@ -247,15 +222,17 @@ export default function ERPLayout() {
           </div>
         </div>
 
-        <button
-          type="button"
-          className="profile-chip"
-          onClick={openProfile}
-          title="Click to update profile"
-        >
-          <FiUser />
-          <span>{user?.name || user?.email}</span>
-        </button>
+        <div className="erp-header-profile-row">
+          <button
+            type="button"
+            className="profile-chip"
+            onClick={openProfile}
+            title="Click to update profile"
+          >
+            <FiUser />
+            <span>{user?.name || user?.email}</span>
+          </button>
+        </div>
       </header>
 
       <aside className={`erp-sidebar ${open ? "open" : ""}`}>
@@ -418,4 +395,4 @@ export default function ERPLayout() {
       </div>
     </div>
   );
-}
+      }
