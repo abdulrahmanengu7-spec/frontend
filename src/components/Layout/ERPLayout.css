@@ -9,7 +9,7 @@
 
 .erp-header {
   height: 62px;
-  background: #bd1017;
+  background: linear-gradient(135deg, #bd1017, #8d0b18);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -202,7 +202,7 @@
 
 .profile-modal-head h2 {
   margin: 0;
-  color: #bd1017;
+  color: var(--primary, #bd1017);
 }
 
 .profile-modal-head p {
@@ -254,7 +254,7 @@
 }
 
 .profile-form input:focus {
-  border-color: #bd1017;
+  border-color: var(--primary, #bd1017);
   box-shadow: 0 0 0 3px rgba(189, 16, 23, 0.12);
 }
 
@@ -270,7 +270,7 @@
 }
 
 .primary-btn {
-  background: #bd1017;
+  background: linear-gradient(135deg, #bd1017, #8d0b18);
 }
 
 .dark-btn {
@@ -313,24 +313,27 @@
   box-shadow: 0 16px 34px rgba(189, 16, 23, 0.45);
 }
 
-/* Dark Mode */
+/* Professional Dark Mode */
 
 :root[data-theme="dark"] .erp-shell {
-  background: #0f172a;
+  background: #020617;
   color: #f8fafc;
 }
 
 :root[data-theme="dark"] .erp-main {
-  background: #0f172a;
+  background:
+    radial-gradient(circle at top left, rgba(239, 35, 60, 0.08), transparent 28%),
+    linear-gradient(135deg, #020617 0%, #0f172a 100%);
 }
 
 :root[data-theme="dark"] .erp-header {
-  background: #7f0b10;
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+  background: linear-gradient(135deg, #7f0b10, #111827) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
 }
 
 :root[data-theme="dark"] .erp-sidebar {
-  background: #020617;
+  background: #020617 !important;
+  border-right: 1px solid #1e293b;
 }
 
 :root[data-theme="dark"] .menu-section h4 {
@@ -347,18 +350,51 @@
   color: #ffffff;
 }
 
+:root[data-theme="dark"] .erp-user .theme-toggle-btn {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+}
+
+:root[data-theme="dark"] .erp-user .theme-toggle-btn:hover {
+  background: #ffffff !important;
+  color: #b91c1c !important;
+}
+
+:root[data-theme="dark"] .erp-user .profile-chip {
+  background: #f8fafc;
+  color: #991b1b;
+}
+
+:root[data-theme="dark"] .erp-user button:not(.profile-chip):not(.theme-toggle-btn) {
+  background: #020617;
+  color: #ffffff;
+}
+
 :root[data-theme="dark"] .profile-modal {
-  background: #111827;
+  background: #0f172a;
   color: #f8fafc;
   border-color: #334155;
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
 }
 
 :root[data-theme="dark"] .profile-modal-head {
   border-color: #334155;
 }
 
+:root[data-theme="dark"] .profile-modal-head h2 {
+  color: #ffffff;
+}
+
 :root[data-theme="dark"] .profile-modal-head p {
   color: #cbd5e1;
+}
+
+:root[data-theme="dark"] .profile-modal-head button {
+  background: rgba(239, 35, 60, 0.15);
+  color: #fb7185;
 }
 
 :root[data-theme="dark"] .profile-form h3 {
@@ -375,18 +411,17 @@
   border-color: #334155;
 }
 
+:root[data-theme="dark"] .profile-form input:focus {
+  border-color: #ef233c;
+  box-shadow: 0 0 0 3px rgba(239, 35, 60, 0.16);
+}
+
+:root[data-theme="dark"] .primary-btn {
+  background: linear-gradient(135deg, #ef233c, #b91c1c);
+}
+
 :root[data-theme="dark"] .dark-btn {
   background: #334155;
-}
-
-:root[data-theme="dark"] .erp-user .profile-chip {
-  background: #f8fafc;
-  color: #991b1b;
-}
-
-:root[data-theme="dark"] .erp-user button:not(.profile-chip):not(.theme-toggle-btn) {
-  background: #020617;
-  color: #ffffff;
 }
 
 /* Responsive */
@@ -440,4 +475,9 @@
   .erp-user button {
     padding: 8px;
   }
-    }
+
+  .erp-title {
+    font-size: 11px;
+    letter-spacing: 0.2px;
+  }
+}
