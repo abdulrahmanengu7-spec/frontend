@@ -21,13 +21,6 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
-.erp-header-top {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
 .burger-btn {
   border: 0;
   color: #ffffff;
@@ -58,11 +51,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.erp-header-profile-row {
-  display: flex;
-  align-items: center;
 }
 
 .erp-user-actions button,
@@ -449,49 +437,48 @@
   background: #334155;
 }
 
-/* Mobile Header Final Professional */
+/* Final Mobile Header */
 
 @media (max-width: 800px) {
   .erp-header {
-    height: 128px !important;
+    height: 118px !important;
     padding: 10px 12px !important;
     display: grid !important;
-    grid-template-rows: 50px 44px !important;
-    gap: 10px !important;
+    grid-template-columns: 44px 1fr 92px !important;
+    grid-template-rows: 48px 40px !important;
+    grid-template-areas:
+      "menu title actions"
+      "profile profile profile" !important;
+    gap: 8px !important;
+    align-items: center !important;
     overflow: hidden !important;
   }
 
-  .erp-header-top {
-    display: grid !important;
-    grid-template-columns: 44px 1fr 92px !important;
-    align-items: center !important;
-    gap: 8px !important;
-    width: 100% !important;
-    min-width: 0 !important;
-  }
-
   .burger-btn {
+    grid-area: menu !important;
     width: 44px !important;
     height: 44px !important;
     padding: 0 !important;
+    border-radius: 14px !important;
     font-size: 30px !important;
-    border-radius: 12px !important;
   }
 
   .erp-title {
+    grid-area: title !important;
     min-width: 0 !important;
     text-align: center !important;
-    font-size: clamp(10px, 2.8vw, 12px) !important;
+    color: #ffffff !important;
+    font-size: clamp(10px, 2.7vw, 12px) !important;
     line-height: 1.12 !important;
     letter-spacing: 0.1px !important;
     font-weight: 900 !important;
-    color: #ffffff !important;
     white-space: normal !important;
     overflow: hidden !important;
   }
 
   .erp-title span {
     display: block !important;
+    white-space: nowrap !important;
   }
 
   .erp-title span + span::before {
@@ -499,11 +486,13 @@
   }
 
   .erp-user-actions {
+    grid-area: actions !important;
     display: grid !important;
     grid-template-columns: 42px 42px !important;
     gap: 8px !important;
     align-items: center !important;
     justify-content: end !important;
+    width: 92px !important;
   }
 
   .erp-user-actions .theme-toggle-btn,
@@ -531,21 +520,16 @@
     font-size: 22px !important;
   }
 
-  .erp-header-profile-row {
-    width: 100% !important;
-    height: 44px !important;
-    display: flex !important;
-    align-items: center !important;
-  }
-
   .profile-chip {
+    grid-area: profile !important;
     width: 100% !important;
-    height: 44px !important;
+    height: 40px !important;
     max-width: none !important;
-    justify-content: center !important;
-    border-radius: 15px !important;
+    padding: 0 14px !important;
+    border-radius: 14px !important;
     background: #ffffff !important;
     color: #991b1b !important;
+    justify-content: center !important;
     font-size: 15px !important;
     font-weight: 900 !important;
     box-shadow: 0 10px 24px rgba(15, 23, 42, 0.24) !important;
@@ -553,13 +537,14 @@
   }
 
   .profile-chip span {
+    display: inline-block !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
   }
 
   .erp-main {
-    padding: 12px 12px 12px !important;
+    padding: 12px !important;
   }
 
   .profile-form {
@@ -582,15 +567,11 @@
 
 @media (max-width: 420px) {
   .erp-header {
-    height: 126px !important;
-    grid-template-rows: 48px 42px !important;
-    gap: 10px !important;
-    padding: 10px 10px !important;
-  }
-
-  .erp-header-top {
+    height: 116px !important;
+    padding: 9px 10px !important;
     grid-template-columns: 40px 1fr 84px !important;
-    gap: 7px !important;
+    grid-template-rows: 46px 38px !important;
+    gap: 8px !important;
   }
 
   .burger-btn {
@@ -599,7 +580,13 @@
     font-size: 28px !important;
   }
 
+  .erp-title {
+    font-size: 10px !important;
+    line-height: 1.1 !important;
+  }
+
   .erp-user-actions {
+    width: 84px !important;
     grid-template-columns: 40px 40px !important;
     gap: 4px !important;
   }
@@ -613,8 +600,8 @@
   }
 
   .profile-chip {
-    height: 42px !important;
+    height: 38px !important;
     font-size: 14px !important;
     border-radius: 13px !important;
   }
-  }
+    }
