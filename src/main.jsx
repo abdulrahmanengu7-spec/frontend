@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import App from "./App.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
 
 import "./styles/global.css";
 import "./styles/responsive.css";
@@ -17,16 +18,20 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename={import.meta.env.BASE_URL}>
-        <AuthProvider>
-          <App />
-          <ToastContainer
-            position="top-right"
-            autoClose={2500}
-            newestOnTop
-            closeOnClick
-            pauseOnHover
-          />
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <App />
+
+            <ToastContainer
+              position="top-right"
+              autoClose={2500}
+              newestOnTop
+              closeOnClick
+              pauseOnHover
+              theme="colored"
+            />
+          </AuthProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>
