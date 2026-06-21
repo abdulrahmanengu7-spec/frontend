@@ -444,14 +444,15 @@
     height: 118px !important;
     padding: 10px 12px !important;
     display: grid !important;
-    grid-template-columns: 44px 1fr 92px !important;
+    grid-template-columns: 44px 1fr !important;
     grid-template-rows: 48px 40px !important;
     grid-template-areas:
-      "menu title actions"
-      "profile profile profile" !important;
+      "menu title"
+      "profile profile" !important;
     gap: 8px !important;
     align-items: center !important;
     overflow: hidden !important;
+    position: sticky !important;
   }
 
   .burger-btn {
@@ -466,6 +467,7 @@
   .erp-title {
     grid-area: title !important;
     min-width: 0 !important;
+    padding-right: 96px !important;
     text-align: center !important;
     color: #ffffff !important;
     font-size: clamp(10px, 2.7vw, 12px) !important;
@@ -486,13 +488,15 @@
   }
 
   .erp-user-actions {
-    grid-area: actions !important;
-    display: grid !important;
-    grid-template-columns: 42px 42px !important;
-    gap: 8px !important;
+    position: absolute !important;
+    top: 10px !important;
+    right: 12px !important;
+    width: auto !important;
+    display: flex !important;
     align-items: center !important;
-    justify-content: end !important;
-    width: 92px !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    z-index: 50 !important;
   }
 
   .erp-user-actions .theme-toggle-btn,
@@ -505,6 +509,7 @@
     display: grid !important;
     place-items: center !important;
     font-size: 0 !important;
+    margin: 0 !important;
   }
 
   .erp-user-actions .theme-toggle-btn span,
@@ -569,7 +574,7 @@
   .erp-header {
     height: 116px !important;
     padding: 9px 10px !important;
-    grid-template-columns: 40px 1fr 84px !important;
+    grid-template-columns: 40px 1fr !important;
     grid-template-rows: 46px 38px !important;
     gap: 8px !important;
   }
@@ -583,12 +588,13 @@
   .erp-title {
     font-size: 10px !important;
     line-height: 1.1 !important;
+    padding-right: 84px !important;
   }
 
   .erp-user-actions {
-    width: 84px !important;
-    grid-template-columns: 40px 40px !important;
-    gap: 4px !important;
+    top: 9px !important;
+    right: 10px !important;
+    gap: 5px !important;
   }
 
   .erp-user-actions .theme-toggle-btn,
@@ -604,4 +610,4 @@
     font-size: 14px !important;
     border-radius: 13px !important;
   }
-    }
+  }
