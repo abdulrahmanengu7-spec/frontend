@@ -215,50 +215,46 @@ export default function ERPLayout() {
   return (
     <div className="erp-shell">
       <header className="erp-header">
-        <div className="erp-header-top">
-          <button
-            type="button"
-            className="burger-btn"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-          >
-            <FiMenu />
-          </button>
+        <button
+          type="button"
+          className="burger-btn"
+          onClick={() => setOpen(true)}
+          aria-label="Open menu"
+        >
+          <FiMenu />
+        </button>
 
-          <div className="erp-title">
-            <span>LOTTE KOLSON STORE</span>
-            <span>MANAGEMENT SYSTEM</span>
-          </div>
-
-          <div className="erp-user-actions">
-            <button
-              type="button"
-              className="theme-toggle-btn"
-              onClick={toggleTheme}
-              title={`Switch to ${isDark ? "light" : "dark"} mode`}
-            >
-              {isDark ? <FiSun /> : <FiMoon />}
-              <span>{theme === "dark" ? "Light" : "Dark"}</span>
-            </button>
-
-            <button type="button" className="logout-btn" onClick={doLogout}>
-              <FiLogOut />
-              <span>Logout</span>
-            </button>
-          </div>
+        <div className="erp-title">
+          <span>LOTTE KOLSON STORE</span>
+          <span>MANAGEMENT SYSTEM</span>
         </div>
 
-        <div className="erp-header-profile-row">
+        <div className="erp-user-actions">
           <button
             type="button"
-            className="profile-chip"
-            onClick={openProfile}
-            title="Click to update profile"
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            title={`Switch to ${isDark ? "light" : "dark"} mode`}
           >
-            <FiUser />
-            <span>{user?.name || user?.email}</span>
+            {isDark ? <FiSun /> : <FiMoon />}
+            <span>{theme === "dark" ? "Light" : "Dark"}</span>
+          </button>
+
+          <button type="button" className="logout-btn" onClick={doLogout}>
+            <FiLogOut />
+            <span>Logout</span>
           </button>
         </div>
+
+        <button
+          type="button"
+          className="profile-chip"
+          onClick={openProfile}
+          title="Click to update profile"
+        >
+          <FiUser />
+          <span>{user?.name || user?.email}</span>
+        </button>
       </header>
 
       <aside className={`erp-sidebar ${open ? "open" : ""}`}>
@@ -436,4 +432,4 @@ export default function ERPLayout() {
       </div>
     </div>
   );
-  }
+        }
