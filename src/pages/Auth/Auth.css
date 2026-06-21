@@ -8,7 +8,7 @@
   overflow: hidden;
   background:
     radial-gradient(circle at top left, rgba(189, 16, 23, 0.08), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.20), transparent 38%),
+    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.2), transparent 38%),
     linear-gradient(135deg, #eef8ff 0%, #dff2ff 46%, #9bd6ff 100%);
   transition: background 0.25s ease;
 }
@@ -37,21 +37,21 @@
 
 .auth-logo,
 .auth-card img.auth-logo {
-  width: 190px !important;
+  width: 230px !important;
   height: auto !important;
-  max-height: 82px !important;
+  max-height: 92px !important;
   object-fit: contain !important;
   display: block !important;
-  margin: 0 auto 12px !important;
+  margin: 0 auto 14px !important;
 
   background: #ffffff !important;
-  padding: 8px 14px !important;
-  border-radius: 10px !important;
-  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  padding: 10px 16px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
 
   box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.18),
-    0 0 0 1px rgba(255, 255, 255, 0.75) inset !important;
+    0 16px 34px rgba(0, 0, 0, 0.24),
+    0 0 0 1px rgba(255, 255, 255, 0.85) inset !important;
 }
 
 .auth-subtitle {
@@ -93,7 +93,7 @@
 
 .input-wrap:focus-within {
   border-color: #bd1017;
-  box-shadow: 0 0 0 3px rgba(189, 16, 23, 0.10);
+  box-shadow: 0 0 0 3px rgba(189, 16, 23, 0.1);
 }
 
 .input-wrap input {
@@ -177,7 +177,8 @@
 
 /* Forgot Password / Sign Up Text Link Fix */
 
-.auth-link-btn {
+.auth-link-btn,
+button.auth-link-btn {
   border: 0 !important;
   background: transparent !important;
   padding: 0 !important;
@@ -192,7 +193,8 @@
   line-height: inherit !important;
 }
 
-.auth-link-btn:hover {
+.auth-link-btn:hover,
+button.auth-link-btn:hover {
   color: #8d0b18 !important;
   text-decoration: underline !important;
   transform: none !important;
@@ -256,20 +258,20 @@
 :root[data-theme="dark"] .auth-logo,
 :root[data-theme="dark"] .auth-card img.auth-logo,
 :root[data-theme="dark"] img.auth-logo {
-  width: 190px !important;
+  width: 230px !important;
   height: auto !important;
-  max-height: 82px !important;
+  max-height: 92px !important;
   object-fit: contain !important;
   display: block !important;
-  margin: 0 auto 12px !important;
+  margin: 0 auto 14px !important;
 
   background: #ffffff !important;
-  padding: 8px 14px !important;
-  border-radius: 10px !important;
-  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  padding: 10px 16px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
 
   box-shadow:
-    0 16px 34px rgba(0, 0, 0, 0.42),
+    0 20px 45px rgba(0, 0, 0, 0.48),
     0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
 }
 
@@ -323,13 +325,16 @@
   color: #fb7185 !important;
 }
 
-:root[data-theme="dark"] .auth-link-btn {
+:root[data-theme="dark"] .auth-link-btn,
+:root[data-theme="dark"] button.auth-link-btn {
   background: transparent !important;
   color: #fb7185 !important;
   box-shadow: none !important;
+  border: 0 !important;
 }
 
-:root[data-theme="dark"] .auth-link-btn:hover {
+:root[data-theme="dark"] .auth-link-btn:hover,
+:root[data-theme="dark"] button.auth-link-btn:hover {
   color: #fecaca !important;
   text-decoration: underline !important;
 }
@@ -363,10 +368,10 @@
   :root[data-theme="dark"] .auth-logo,
   :root[data-theme="dark"] .auth-card img.auth-logo,
   :root[data-theme="dark"] img.auth-logo {
-    width: 170px !important;
-    max-height: 74px !important;
-    padding: 7px 12px !important;
-    margin-bottom: 10px !important;
+    width: 205px !important;
+    max-height: 84px !important;
+    padding: 9px 14px !important;
+    margin-bottom: 12px !important;
   }
 
   .auth-title {
