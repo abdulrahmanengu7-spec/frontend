@@ -49,7 +49,11 @@ const sections = [
     title: "SECTION 3 — TRANSACTIONS",
     items: [
       { to: "/daily-inward", label: "Inward (Stock Add)", icon: <FiTruck /> },
-      { to: "/daily-issuance", label: "Issuance (Stock Minus)", icon: <FiClipboard /> },
+      {
+        to: "/daily-issuance",
+        label: "Issuance (Stock Minus)",
+        icon: <FiClipboard />,
+      },
     ],
   },
   {
@@ -63,21 +67,43 @@ const sections = [
   {
     title: "SECTION 5 — INWARDS / OUTWARDS",
     items: [
-      { to: "/outward-gate-pass-records", label: "Outward Gate Pass Records", icon: <FiFileText /> },
-      { to: "/iutn-outward-record", label: "IUTN Outward Record", icon: <FiTruck /> },
+      {
+        to: "/outward-gate-pass-records",
+        label: "Outward Gate Pass Records",
+        icon: <FiFileText />,
+      },
+      {
+        to: "/iutn-outward-record",
+        label: "IUTN Outward Record",
+        icon: <FiTruck />,
+      },
     ],
   },
   {
     title: "SECTION 6 — FUEL CONSUMPTION",
     adminOnly: true,
     items: [
-      { to: "/fuel-executive-dashboard", label: "Petrol Consumption Dashboard", icon: <FiBarChart2 /> },
-      { to: "/monthly-travel-entries", label: "Monthly Travel Entries", icon: <FiDollarSign /> },
+      {
+        to: "/fuel-executive-dashboard",
+        label: "Petrol Consumption Dashboard",
+        icon: <FiBarChart2 />,
+      },
+      {
+        to: "/monthly-travel-entries",
+        label: "Monthly Travel Entries",
+        icon: <FiDollarSign />,
+      },
     ],
   },
   {
     title: "SECTION 7 — TOOLS ISSUANCE",
-    items: [{ to: "/tools-issuance", label: "Tools Issuance", icon: <FiTool /> }],
+    items: [
+      {
+        to: "/tools-issuance",
+        label: "Tools Issuance",
+        icon: <FiTool />,
+      },
+    ],
   },
 ];
 
@@ -300,7 +326,10 @@ export default function ERPLayout() {
                 <input
                   value={profile.name}
                   onChange={(e) =>
-                    setProfile({ ...profile, name: e.target.value })
+                    setProfile({
+                      ...profile,
+                      name: e.target.value,
+                    })
                   }
                 />
               </label>
@@ -310,7 +339,10 @@ export default function ERPLayout() {
                 <input
                   value={profile.department}
                   onChange={(e) =>
-                    setProfile({ ...profile, department: e.target.value })
+                    setProfile({
+                      ...profile,
+                      department: e.target.value,
+                    })
                   }
                 />
               </label>
@@ -320,7 +352,10 @@ export default function ERPLayout() {
                 <input
                   value={profile.phone}
                   onChange={(e) =>
-                    setProfile({ ...profile, phone: e.target.value })
+                    setProfile({
+                      ...profile,
+                      phone: e.target.value,
+                    })
                   }
                 />
               </label>
@@ -342,7 +377,10 @@ export default function ERPLayout() {
                   type="password"
                   value={password.oldPassword}
                   onChange={(e) =>
-                    setPassword({ ...password, oldPassword: e.target.value })
+                    setPassword({
+                      ...password,
+                      oldPassword: e.target.value,
+                    })
                   }
                 />
               </label>
@@ -353,7 +391,10 @@ export default function ERPLayout() {
                   type="password"
                   value={password.newPassword}
                   onChange={(e) =>
-                    setPassword({ ...password, newPassword: e.target.value })
+                    setPassword({
+                      ...password,
+                      newPassword: e.target.value,
+                    })
                   }
                 />
               </label>
@@ -395,4 +436,4 @@ export default function ERPLayout() {
       </div>
     </div>
   );
-      }
+  }
