@@ -14,11 +14,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
   padding: 0 18px;
   position: sticky;
   top: 0;
   z-index: 1000;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.erp-header-top {
+  display: contents;
 }
 
 .burger-btn {
@@ -36,16 +41,17 @@
   font-weight: 900;
   letter-spacing: 0.8px;
   text-align: center;
+  flex: 1;
 }
 
-.erp-user {
+.erp-user-actions {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-weight: 700;
 }
 
-.erp-user button {
+.erp-user-actions button,
+.profile-chip {
   background: #111827;
   color: #ffffff;
   border: 0;
@@ -59,34 +65,38 @@
   transition: 0.2s ease;
 }
 
-.erp-user button:hover {
+.erp-user-actions button:hover,
+.profile-chip:hover {
   transform: translateY(-1px);
 }
 
-.erp-user .profile-chip {
+.profile-chip {
   background: #ffffff;
   color: #bd1017;
 }
 
-/* Dark / Light Toggle Button */
-
-.erp-user .theme-toggle-btn {
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-  border-radius: 999px;
-  padding: 9px 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: 0.2s ease;
+.theme-toggle-btn {
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+  border-radius: 999px !important;
+  padding: 9px 12px !important;
 }
 
-.erp-user .theme-toggle-btn:hover {
-  background: #ffffff;
-  color: #bd1017;
+.theme-toggle-btn:hover {
+  background: #ffffff !important;
+  color: #bd1017 !important;
+}
+
+.logout-btn {
+  background: #111827 !important;
+  color: #ffffff !important;
+}
+
+.logout-btn span,
+.theme-toggle-btn span,
+.profile-chip span {
+  display: inline;
 }
 
 /* Sidebar */
@@ -350,25 +360,25 @@
   color: #ffffff;
 }
 
-:root[data-theme="dark"] .erp-user .theme-toggle-btn {
+:root[data-theme="dark"] .theme-toggle-btn {
   background: rgba(255, 255, 255, 0.12) !important;
   border: 1px solid rgba(255, 255, 255, 0.28) !important;
   color: #ffffff !important;
 }
 
-:root[data-theme="dark"] .erp-user .theme-toggle-btn:hover {
+:root[data-theme="dark"] .theme-toggle-btn:hover {
   background: #ffffff !important;
   color: #b91c1c !important;
 }
 
-:root[data-theme="dark"] .erp-user .profile-chip {
+:root[data-theme="dark"] .profile-chip {
   background: #ffffff;
   color: #991b1b;
 }
 
-:root[data-theme="dark"] .erp-user button:not(.profile-chip):not(.theme-toggle-btn) {
-  background: #020617;
-  color: #ffffff;
+:root[data-theme="dark"] .logout-btn {
+  background: #020617 !important;
+  color: #ffffff !important;
 }
 
 :root[data-theme="dark"] .profile-modal {
@@ -424,11 +434,11 @@
   background: #334155;
 }
 
-/* Mobile Header Final — User Name Inside Header */
+/* Mobile Header Final Correct Layout */
 
 @media (max-width: 800px) {
   .erp-header {
-    height: 138px !important;
+    height: 124px !important;
     padding: 0 !important;
     display: block !important;
     position: sticky !important;
@@ -436,103 +446,84 @@
     overflow: hidden !important;
   }
 
+  .erp-header-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 70px !important;
+    padding: 0 14px !important;
+    gap: 8px !important;
+  }
+
   .burger-btn {
-    position: absolute !important;
-    left: 14px !important;
-    top: 18px !important;
     width: 42px !important;
     height: 42px !important;
     padding: 0 !important;
-    z-index: 20 !important;
     font-size: 30px !important;
+    flex: 0 0 42px !important;
   }
 
   .erp-title {
-    position: absolute !important;
-    left: 64px !important;
-    right: 112px !important;
-    top: 13px !important;
-    height: 52px !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
+    flex: 1 !important;
     text-align: center !important;
     white-space: normal !important;
-
-    font-size: 11px !important;
+    font-size: 12px !important;
     line-height: 1.15 !important;
     letter-spacing: 0.15px !important;
     font-weight: 900 !important;
     color: #ffffff !important;
-    z-index: 15 !important;
+    padding: 0 4px !important;
   }
 
-  .erp-user {
-    position: static !important;
-    width: 100% !important;
+  .erp-user-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex: 0 0 auto !important;
   }
 
-  .erp-user .theme-toggle-btn {
-    position: absolute !important;
-    right: 62px !important;
-    top: 18px !important;
-
+  .erp-user-actions .theme-toggle-btn,
+  .erp-user-actions .logout-btn {
     width: 42px !important;
     height: 42px !important;
+    min-width: 42px !important;
     padding: 0 !important;
     border-radius: 14px !important;
-
     display: grid !important;
     place-items: center !important;
+    font-size: 0 !important;
+  }
 
+  .erp-user-actions .theme-toggle-btn {
     background: rgba(255, 255, 255, 0.14) !important;
     border: 1px solid rgba(255, 255, 255, 0.26) !important;
     color: #ffffff !important;
-
-    z-index: 22 !important;
   }
 
-  .erp-user .theme-toggle-btn span {
+  .erp-user-actions .logout-btn {
+    background: #020617 !important;
+    color: #ffffff !important;
+  }
+
+  .erp-user-actions .theme-toggle-btn span,
+  .erp-user-actions .logout-btn span {
     display: none !important;
   }
 
-  .erp-user .theme-toggle-btn svg {
+  .erp-user-actions .theme-toggle-btn svg {
     font-size: 20px !important;
   }
 
-  .erp-user > button:last-child {
-    position: absolute !important;
-    right: 14px !important;
-    top: 18px !important;
-
-    width: 42px !important;
-    height: 42px !important;
-    padding: 0 !important;
-    border-radius: 14px !important;
-
-    display: grid !important;
-    place-items: center !important;
-
-    font-size: 0 !important;
-    background: #020617 !important;
-    color: #ffffff !important;
-
-    z-index: 22 !important;
-  }
-
-  .erp-user > button:last-child svg {
+  .erp-user-actions .logout-btn svg {
     font-size: 22px !important;
   }
 
-  .erp-user .profile-chip {
+  .profile-chip {
     position: absolute !important;
     left: 14px !important;
     right: 14px !important;
-    top: 78px !important;
-
-    height: 42px !important;
+    top: 76px !important;
+    height: 36px !important;
     width: auto !important;
     max-width: none !important;
 
@@ -541,20 +532,25 @@
     justify-content: center !important;
     gap: 7px !important;
 
-    border-radius: 14px !important;
+    border-radius: 12px !important;
     background: #ffffff !important;
     color: #991b1b !important;
 
-    font-size: 16px !important;
+    font-size: 15px !important;
     font-weight: 900 !important;
-
     box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22) !important;
 
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-
     z-index: 21 !important;
+  }
+
+  .profile-chip span {
+    display: inline-block !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
   }
 
   .erp-main {
@@ -581,45 +577,36 @@
 
 @media (max-width: 420px) {
   .erp-header {
-    height: 136px !important;
+    height: 122px !important;
+  }
+
+  .erp-header-top {
+    height: 68px !important;
+    padding: 0 12px !important;
   }
 
   .burger-btn {
-    left: 14px !important;
-    top: 18px !important;
     width: 40px !important;
     height: 40px !important;
+    flex-basis: 40px !important;
   }
 
   .erp-title {
-    left: 62px !important;
-    right: 112px !important;
-    top: 12px !important;
-    height: 52px !important;
     font-size: 10.5px !important;
-    line-height: 1.15 !important;
   }
 
-  .erp-user .theme-toggle-btn {
-    right: 62px !important;
-    top: 18px !important;
+  .erp-user-actions .theme-toggle-btn,
+  .erp-user-actions .logout-btn {
     width: 40px !important;
     height: 40px !important;
+    min-width: 40px !important;
     border-radius: 13px !important;
   }
 
-  .erp-user > button:last-child {
-    right: 14px !important;
-    top: 18px !important;
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 13px !important;
-  }
-
-  .erp-user .profile-chip {
-    top: 78px !important;
-    height: 40px !important;
-    font-size: 15px !important;
-    border-radius: 13px !important;
+  .profile-chip {
+    top: 74px !important;
+    height: 34px !important;
+    font-size: 14px !important;
+    border-radius: 11px !important;
   }
   }
