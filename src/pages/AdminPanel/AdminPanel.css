@@ -340,19 +340,50 @@
   cursor: not-allowed;
 }
 
+/* Action Buttons — Same Size + Margin */
+
+.admin-table td:last-child {
+  min-width: 120px;
+}
+
+.admin-table td:last-child button,
+.admin-edit-btn,
 .admin-delete-btn {
-  height: 40px;
+  width: 92px;
+  height: 38px;
+  margin: 5px 0;
   border: 0;
   border-radius: 12px;
-  background: #dc2626;
-  color: #ffffff;
-  padding: 0 14px;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 7px;
+  font-size: 13px;
   font-weight: 950;
+  line-height: 1;
   cursor: pointer;
   transition: 0.2s ease;
+}
+
+.admin-table td:last-child button + button {
+  margin-top: 8px;
+}
+
+.admin-edit-btn,
+.admin-table td:last-child button:not(.admin-delete-btn) {
+  background: #0f6ea8;
+  color: #ffffff;
+}
+
+.admin-edit-btn:hover,
+.admin-table td:last-child button:not(.admin-delete-btn):hover {
+  background: #075985;
+  transform: translateY(-1px);
+}
+
+.admin-delete-btn {
+  background: #dc2626;
+  color: #ffffff;
 }
 
 .admin-delete-btn:hover {
@@ -360,7 +391,8 @@
   transform: translateY(-1px);
 }
 
-.admin-delete-btn:disabled {
+.admin-delete-btn:disabled,
+.admin-table td:last-child button:disabled {
   background: #fecaca;
   color: #ffffff;
   cursor: not-allowed;
@@ -570,10 +602,14 @@
     font-size: 12px;
   }
 
+  .admin-table td:last-child button,
+  .admin-edit-btn,
   .admin-delete-btn {
+    width: 86px;
     height: 36px;
-    padding: 0 11px;
+    margin: 5px 0;
     font-size: 12px;
+    border-radius: 11px;
   }
 }
 
