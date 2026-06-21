@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import api from "../../api/api";
 import { useAuth } from "../../context/AuthContext";
 import PageToolbar from "../../components/Table/PageToolbar";
+import TableScrollButtons from "../../components/Table/TableScrollButtons";
 import { exportRowsExcel, exportRowsPDF } from "../../utils/exporters";
 import "../Stock/StockPage.css";
 
@@ -78,6 +79,7 @@ export default function TransactionPage({ type, title }) {
 
   const columns = type === "inward" ? inwardColumns : issueColumns;
 
+  const tableRef = useRef(null);
   const lookupTimerRef = useRef(null);
   const lookupRequestRef = useRef(0);
 
@@ -158,8 +160,7 @@ export default function TransactionPage({ type, title }) {
     );
 
     return rows.filter((row) => {
-      const searchMatch =
-        !q || JSON.stringify(row).toLowerCase().includes(q);
+      const searchMatch = !q || JSON.stringify(row).toLowerCase().includes(q);
 
       const advancedMatch = activeFilters.every(([key, value]) => {
         const rowValue = String(row[key] ?? "").toLowerCase();
@@ -572,74 +573,78 @@ export default function TransactionPage({ type, title }) {
         onImportExcel={importExcel}
       />
 
-      <div className="table-wrap">
-        <table className="erp-table">
-          <thead>
-            <tr>
-              {columns.map((col) => (
-                <th key={col.key}>{col.label}</th>
-              ))}
-              <th>Action</th>
-            </tr>
-          </thead>
+      <div className="table-area">
+        <div className="table-wrap table-scroll-box" ref={tableRef}>
+          <table className="erp-table">
+            <thead>
+              <tr>
+                {columns.map((col) => (
+                  <th key={col.key}>{col.label}</th>
+                ))}
+                <th>Action</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {data.map((row, idx) => {
-              const isCurrentEdit =
-                editing === row._id ||
-                (editing === "new" && row._id === "new");
+            <tbody>
+              {data.map((row, idx) => {
+                const isCurrentEdit =
+                  editing === row._id ||
+                  (editing === "new" && row._id === "new");
 
-              return (
-                <tr key={row._id}>
-                  {columns.map((col) => (
-                    <td key={col.key}>{renderCell(row, col, idx)}</td>
-                  ))}
+                return (
+                  <tr key={row._id}>
+                    {columns.map((col) => (
+                      <td key={col.key}>{renderCell(row, col, idx)}</td>
+                    ))}
 
-                  <td className="action-cell">
-                    {canWrite && isCurrentEdit && (
-                      <button className="save-btn" onClick={save}>
-                        Save
-                      </button>
-                    )}
+                    <td className="action-cell">
+                      {canWrite && isCurrentEdit && (
+                        <button className="save-btn" onClick={save}>
+                          Save
+                        </button>
+                      )}
 
-                    {canWrite && !isCurrentEdit && row._id !== "new" && (
-                      <button onClick={() => startEdit(row)}>Edit</button>
-                    )}
+                      {canWrite && !isCurrentEdit && row._id !== "new" && (
+                        <button onClick={() => startEdit(row)}>Edit</button>
+                      )}
 
-                    {canWrite && isCurrentEdit && (
-                      <button
-                        onClick={() => {
-                          setEditing(null);
-                          setDraft({});
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    )}
+                      {canWrite && isCurrentEdit && (
+                        <button
+                          onClick={() => {
+                            setEditing(null);
+                            setDraft({});
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      )}
 
-                    {canDelete && row._id !== "new" && (
-                      <button
-                        className="delete-btn"
-                        onClick={() => del(row._id)}
-                      >
-                        Delete
-                      </button>
-                    )}
+                      {canDelete && row._id !== "new" && (
+                        <button
+                          className="delete-btn"
+                          onClick={() => del(row._id)}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+
+              {data.length === 0 && (
+                <tr>
+                  <td colSpan={columns.length + 1} className="empty-cell">
+                    No records found
                   </td>
                 </tr>
-              );
-            })}
+              )}
+            </tbody>
+          </table>
+        </div>
 
-            {data.length === 0 && (
-              <tr>
-                <td colSpan={columns.length + 1} className="empty-cell">
-                  No records found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <TableScrollButtons targetRef={tableRef} />
       </div>
     </div>
   );
-}
+  }
