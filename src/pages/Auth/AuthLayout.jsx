@@ -6,7 +6,7 @@ export default function AuthLayout({ subtitle, children }) {
       <main className="auth-main">
         <section className="auth-card">
           <img
-            src={`${import.meta.env.BASE_URL}logo.png?v=6`}
+            src={`${import.meta.env.BASE_URL}logo.png?v=20`}
             className="auth-logo"
             alt="Lotte Kolson Store Management System"
           />
