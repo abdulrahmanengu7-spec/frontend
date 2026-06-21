@@ -1,4 +1,117 @@
-*{box-sizing:border-box}html,body,#root{margin:0;min-height:100%;font-family:Inter,Segoe UI,Arial,sans-serif}body{background:#eef6ff;color:#1f2937}button,input,select{font-family:inherit}button{cursor:pointer}.app-page{min-height:100vh}
+:root {
+  color-scheme: light;
+
+  --primary: #bd1017;
+  --primary-2: #c8102e;
+  --primary-dark: #7f0b10;
+
+  --app-bg: #eef6ff;
+  --card-bg: #ffffff;
+  --card-bg-2: #f8fafc;
+
+  --text-main: #1f2937;
+  --text-muted: #64748b;
+  --text-soft: #374151;
+
+  --border-color: #e5e7eb;
+  --input-bg: #ffffff;
+
+  --table-bg: #ffffff;
+  --table-row-alt: #f8fafc;
+  --table-head-bg: #bd1017;
+  --table-head-text: #ffffff;
+
+  --shadow-soft: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --primary: #ef4444;
+  --primary-2: #dc2626;
+  --primary-dark: #7f1d1d;
+
+  --app-bg: #0f172a;
+  --card-bg: #111827;
+  --card-bg-2: #182235;
+
+  --text-main: #f8fafc;
+  --text-muted: #cbd5e1;
+  --text-soft: #e5e7eb;
+
+  --border-color: #334155;
+  --input-bg: #0b1220;
+
+  --table-bg: #111827;
+  --table-row-alt: #0f172a;
+  --table-head-bg: #991b1b;
+  --table-head-text: #ffffff;
+
+  --shadow-soft: 0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, Segoe UI, Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--app-bg);
+  color: var(--text-main);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+input,
+select,
+textarea {
+  background: var(--input-bg);
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+a {
+  color: inherit;
+}
+
+.app-page {
+  min-height: 100vh;
+  background: var(--app-bg);
+  color: var(--text-main);
+}
+
+/* Icon Button */
 
 .icon-btn {
   border: 0;
@@ -9,8 +122,168 @@
   justify-content: center;
   padding: 0;
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
 .icon-btn:hover {
-  color: #bd1017;
+  color: var(--primary);
+}
+
+:root[data-theme="dark"] .icon-btn {
+  color: #cbd5e1;
+}
+
+:root[data-theme="dark"] .icon-btn:hover {
+  color: #ef4444;
+}
+
+/* Access Denied */
+
+.access-denied {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  place-items: center;
+  color: #dc2626;
+  font-weight: 900;
+  font-size: 24px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Common Theme Support */
+
+.erp-shell,
+.erp-main,
+.admin-page,
+.lists-page,
+.stock-page,
+.dashboard-page,
+.transaction-page {
+  background: var(--app-bg) !important;
+  color: var(--text-main) !important;
+}
+
+.page-toolbar,
+.table-wrap,
+.dash-card,
+.dash-table,
+.admin-card,
+.admin-form,
+.list-add,
+.list-card,
+.auth-card,
+.profile-modal,
+.card,
+.panel {
+  background: var(--card-bg) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+.search-box,
+.toolbar-actions button,
+.page-toolbar button,
+.table-filter,
+.filter-box {
+  background: var(--card-bg) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+table,
+.erp-table,
+.excel-like-table,
+.data-table {
+  background: var(--table-bg) !important;
+  color: var(--text-main) !important;
+}
+
+.erp-table th,
+.excel-like-table th,
+.data-table th {
+  background: var(--table-head-bg) !important;
+  color: var(--table-head-text) !important;
+}
+
+.erp-table td,
+.erp-table th,
+.excel-like-table td,
+.excel-like-table th,
+.data-table td,
+.data-table th {
+  border-color: var(--border-color) !important;
+}
+
+.erp-table tbody tr,
+.excel-like-table tbody tr,
+.data-table tbody tr {
+  background: var(--table-bg) !important;
+}
+
+.erp-table tbody tr:nth-child(even),
+.excel-like-table tbody tr:nth-child(even),
+.data-table tbody tr:nth-child(even) {
+  background: var(--table-row-alt) !important;
+}
+
+/* Dark Mode Extra Fixes */
+
+:root[data-theme="dark"] .page-toolbar h1,
+:root[data-theme="dark"] .dash-card h3,
+:root[data-theme="dark"] .admin-card h2,
+:root[data-theme="dark"] .list-card h3 {
+  color: #f8fafc !important;
+}
+
+:root[data-theme="dark"] .text-muted,
+:root[data-theme="dark"] p {
+  color: var(--text-muted);
+}
+
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] textarea {
+  background: var(--input-bg) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+:root[data-theme="dark"] input:focus,
+:root[data-theme="dark"] select:focus,
+:root[data-theme="dark"] textarea:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--card-bg-2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }
