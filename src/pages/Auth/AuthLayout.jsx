@@ -1,4 +1,3 @@
-import logo from "../../assets/logo.png";
 import "./Auth.css";
 
 export default function AuthLayout({ subtitle, children }) {
@@ -6,8 +5,14 @@ export default function AuthLayout({ subtitle, children }) {
     <div className="auth-layout">
       <main className="auth-main">
         <section className="auth-card">
-          <img src={logo} className="auth-logo" alt="Lotte Kolson Logo" />
+          <img
+            src={`${import.meta.env.BASE_URL}logo.png?v=6`}
+            className="auth-logo"
+            alt="Lotte Kolson Store Management System"
+          />
+
           <p className="auth-subtitle">{subtitle}</p>
+
           {children}
         </section>
       </main>
