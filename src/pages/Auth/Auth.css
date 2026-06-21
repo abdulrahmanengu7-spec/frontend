@@ -33,12 +33,21 @@
   transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.auth-logo {
-  height: 88px;
-  width: auto;
-  object-fit: contain;
-  margin: 0 auto 12px;
-  display: block;
+/* Logo Professional Fix */
+
+.auth-logo,
+.auth-card img.auth-logo {
+  height: 110px !important;
+  width: auto !important;
+  max-width: 190px !important;
+  object-fit: contain !important;
+  margin: 0 auto 14px !important;
+  display: block !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
 }
 
 .auth-subtitle {
@@ -202,10 +211,20 @@
     0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
 }
 
-:root[data-theme="dark"] .auth-logo {
-  background: #ffffff !important;
-  border-radius: 10px;
-  padding: 7px;
+/* Dark mode logo — no white background */
+:root[data-theme="dark"] .auth-logo,
+:root[data-theme="dark"] .auth-card img,
+:root[data-theme="dark"] img.auth-logo {
+  height: 110px !important;
+  width: auto !important;
+  max-width: 190px !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
 }
 
 :root[data-theme="dark"] .auth-title {
@@ -276,8 +295,14 @@
     border-radius: 16px;
   }
 
-  .auth-logo {
-    height: 74px;
+  .auth-logo,
+  .auth-card img.auth-logo,
+  :root[data-theme="dark"] .auth-logo,
+  :root[data-theme="dark"] .auth-card img,
+  :root[data-theme="dark"] img.auth-logo {
+    height: 96px !important;
+    max-width: 170px !important;
+    margin-bottom: 12px !important;
   }
 
   .auth-title {
@@ -297,4 +322,4 @@
   .auth-button {
     padding: 13px 16px;
   }
-    }
+}
