@@ -12,14 +12,14 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [remember, setRemember] = useState(false);
 
   useEffect(() => {
-    // Login page open hote hi fields empty rakho
     setEmail("");
     setPassword("");
     setShow(false);
+    setRemember(false);
 
-    // Old saved login keys remove
     localStorage.removeItem("savedEmail");
     localStorage.removeItem("savedPassword");
     localStorage.removeItem("rememberEmail");
@@ -38,7 +38,6 @@ export default function Login() {
     sessionStorage.removeItem("adminEmail");
     sessionStorage.removeItem("adminPassword");
 
-    // Browser autofill agar delay se value dalay to usko bhi clear karo
     const timer = setTimeout(() => {
       setEmail("");
       setPassword("");
@@ -60,6 +59,7 @@ export default function Login() {
 
     try {
       await login(cleanEmail, cleanPassword);
+      toast.success("Login successful");
       navigate("/master-dashboard");
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
@@ -69,7 +69,6 @@ export default function Login() {
   return (
     <AuthLayout subtitle="Sign in to continue to your account">
       <form onSubmit={submit} className="auth-form" autoComplete="off">
-        {/* Dummy hidden inputs to stop browser autofill */}
         <input
           type="text"
           name="fake-user-name"
@@ -92,6 +91,7 @@ export default function Login() {
 
         <div className="input-wrap">
           <FiMail className="icon" />
+
           <input
             type="email"
             name="login_email_blank"
@@ -107,6 +107,7 @@ export default function Login() {
 
         <div className="input-wrap">
           <FiLock className="icon" />
+
           <input
             type={show ? "text" : "password"}
             name="login_password_blank"
@@ -119,23 +120,34 @@ export default function Login() {
             spellCheck="false"
           />
 
-          <span className="eye" onClick={() => setShow((v) => !v)}>
+          <button
+            type="button"
+            className="eye"
+            onClick={() => setShow((v) => !v)}
+            aria-label={show ? "Hide password" : "Show password"}
+          >
             {show ? <FiEyeOff /> : <FiEye />}
-          </span>
+          </button>
         </div>
 
         <div className="auth-row">
           <label className="remember">
-            <input type="checkbox" autoComplete="off" />
+            <input
+              type="checkbox"
+              checked={remember}
+              onChange={(e) => setRemember(e.target.checked)}
+              autoComplete="off"
+            />
             Remember me
           </label>
 
-          <span
-            className="auth-link auth-small"
+          <button
+            type="button"
+            className="auth-link auth-small auth-link-btn"
             onClick={() => navigate("/forgot-password")}
           >
             Forgot Password?
-          </span>
+          </button>
         </div>
 
         <button className="auth-button" type="submit">
@@ -144,9 +156,13 @@ export default function Login() {
 
         <p className="auth-center auth-small">
           Don&apos;t have an account?{" "}
-          <span className="auth-link" onClick={() => navigate("/signup")}>
+          <button
+            type="button"
+            className="auth-link auth-link-btn"
+            onClick={() => navigate("/signup")}
+          >
             Sign Up
-          </span>
+          </button>
         </p>
       </form>
     </AuthLayout>
