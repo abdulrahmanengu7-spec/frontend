@@ -1,457 +1,46 @@
-.erp-shell {
-  min-height: 100vh;
-  background: var(--app-bg, #eef6ff);
-  color: var(--text-main, #111827);
-  transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-/* Header */
-
-.erp-header {
-  height: 62px;
-  background: linear-gradient(135deg, #bd1017, #8d0b18);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 18px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-}
-
-.burger-btn {
-  border: 0;
-  color: #ffffff;
-  background: transparent;
-  font-size: 28px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.erp-title {
-  font-weight: 900;
-  letter-spacing: 0.8px;
-  text-align: center;
-}
-
-.erp-user {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-}
-
-.erp-user button {
-  background: #111827;
-  color: #ffffff;
-  border: 0;
-  border-radius: 8px;
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  font-weight: 800;
-  transition: 0.2s ease;
-}
-
-.erp-user button:hover {
-  transform: translateY(-1px);
-}
-
-.erp-user .profile-chip {
-  background: #ffffff;
-  color: #bd1017;
-}
-
-/* Dark / Light Toggle Button */
-
-.erp-user .theme-toggle-btn {
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-  border-radius: 999px;
-  padding: 9px 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.erp-user .theme-toggle-btn:hover {
-  background: #ffffff;
-  color: #bd1017;
-}
-
-/* Sidebar */
-
-.erp-sidebar {
-  position: fixed;
-  top: 0;
-  left: -320px;
-  width: 310px;
-  height: 100vh;
-  background: #101827;
-  color: #ffffff;
-  z-index: 2000;
-  transition: 0.25s ease;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-.erp-sidebar.open {
-  left: 0;
-}
-
-.sidebar-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.sidebar-head button {
-  background: transparent;
-  border: 0;
-  color: #ffffff;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.menu-section h4 {
-  font-size: 12px;
-  color: #fca5a5;
-  margin: 20px 0 10px;
-  letter-spacing: 0.7px;
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 11px 12px;
-  color: #e5e7eb;
-  text-decoration: none;
-  border-radius: 10px;
-  margin-bottom: 6px;
-  font-weight: 700;
-  transition: 0.2s ease;
-}
-
-.menu-item:hover,
-.menu-item.active {
-  background: #bd1017;
-  color: #ffffff;
-}
-
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  z-index: 1500;
-}
-
-/* Main */
-
-.erp-main {
-  padding: 22px;
-  background: var(--app-bg, #eef6ff);
-  min-height: calc(100vh - 62px);
-  transition: background-color 0.25s ease;
-}
-
-/* Profile Modal */
-
-.profile-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 2500;
-  background: rgba(15, 23, 42, 0.55);
-  display: grid;
-  place-items: center;
-  padding: 16px;
-}
-
-.profile-modal {
-  width: min(760px, 96vw);
-  max-height: 92vh;
-  overflow-y: auto;
-  background: var(--card-bg, #ffffff);
-  color: var(--text-main, #111827);
-  border-radius: 20px;
-  box-shadow: var(--shadow-soft, 0 25px 80px rgba(0, 0, 0, 0.35));
-  padding: 20px;
-  border: 1px solid var(--border-color, #eef2f7);
-}
-
-.profile-modal-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  align-items: flex-start;
-  border-bottom: 1px solid var(--border-color, #eef2f7);
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-}
-
-.profile-modal-head h2 {
-  margin: 0;
-  color: var(--primary, #bd1017);
-}
-
-.profile-modal-head p {
-  margin: 4px 0 0;
-  color: var(--text-muted, #64748b);
-}
-
-.profile-modal-head button {
-  border: 0;
-  background: #fee2e2;
-  color: #bd1017;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  font-size: 20px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-}
-
-.profile-form {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.profile-form h3 {
-  grid-column: 1 / -1;
-  margin: 6px 0 0;
-  color: var(--text-main, #111827);
-}
-
-.profile-form label {
-  color: var(--text-soft, #374151);
-  font-weight: 800;
-  font-size: 13px;
-}
-
-.profile-form input {
-  width: 100%;
-  margin-top: 6px;
-  padding: 11px;
-  border: 1px solid var(--border-color, #d1d5db);
-  border-radius: 10px;
-  outline: none;
-  background: var(--input-bg, #ffffff);
-  color: var(--text-main, #111827);
-}
-
-.profile-form input:focus {
-  border-color: var(--primary, #bd1017);
-  box-shadow: 0 0 0 3px rgba(189, 16, 23, 0.12);
-}
-
-.primary-btn,
-.dark-btn {
-  align-self: end;
-  height: 42px;
-  border: 0;
-  border-radius: 10px;
-  color: #ffffff;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.primary-btn {
-  background: linear-gradient(135deg, #bd1017, #8d0b18);
-}
-
-.dark-btn {
-  background: #111827;
-}
-
-.modal-open {
-  overflow: hidden;
-}
-
-/* Scroll Floating Buttons */
-
-.scroll-float-tools {
-  position: fixed;
-  right: 18px;
-  bottom: 22px;
-  z-index: 800;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.scroll-float-tools button {
-  width: 46px;
-  height: 46px;
-  border: 0;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #bd1017, #7f0b10);
-  color: #ffffff;
-  display: grid;
-  place-items: center;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 12px 28px rgba(189, 16, 23, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.scroll-float-tools button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 34px rgba(189, 16, 23, 0.45);
-}
-
-/* Professional Dark Mode */
-
-:root[data-theme="dark"] .erp-shell {
-  background: #020617;
-  color: #f8fafc;
-}
-
-:root[data-theme="dark"] .erp-main {
-  background:
-    radial-gradient(circle at top left, rgba(239, 35, 60, 0.08), transparent 28%),
-    linear-gradient(135deg, #020617 0%, #0f172a 100%);
-}
-
-:root[data-theme="dark"] .erp-header {
-  background: linear-gradient(135deg, #7f0b10, #111827) !important;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
-}
-
-:root[data-theme="dark"] .erp-sidebar {
-  background: #020617 !important;
-  border-right: 1px solid #1e293b;
-}
-
-:root[data-theme="dark"] .menu-section h4 {
-  color: #fecaca;
-}
-
-:root[data-theme="dark"] .menu-item {
-  color: #cbd5e1;
-}
-
-:root[data-theme="dark"] .menu-item:hover,
-:root[data-theme="dark"] .menu-item.active {
-  background: #991b1b;
-  color: #ffffff;
-}
-
-:root[data-theme="dark"] .erp-user .theme-toggle-btn {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border: 1px solid rgba(255, 255, 255, 0.28) !important;
-  color: #ffffff !important;
-}
-
-:root[data-theme="dark"] .erp-user .theme-toggle-btn:hover {
-  background: #ffffff !important;
-  color: #b91c1c !important;
-}
-
-:root[data-theme="dark"] .erp-user .profile-chip {
-  background: #f8fafc;
-  color: #991b1b;
-}
-
-:root[data-theme="dark"] .erp-user button:not(.profile-chip):not(.theme-toggle-btn) {
-  background: #020617;
-  color: #ffffff;
-}
-
-:root[data-theme="dark"] .profile-modal {
-  background: #0f172a;
-  color: #f8fafc;
-  border-color: #334155;
-  box-shadow:
-    0 28px 80px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-}
-
-:root[data-theme="dark"] .profile-modal-head {
-  border-color: #334155;
-}
-
-:root[data-theme="dark"] .profile-modal-head h2 {
-  color: #ffffff;
-}
-
-:root[data-theme="dark"] .profile-modal-head p {
-  color: #cbd5e1;
-}
-
-:root[data-theme="dark"] .profile-modal-head button {
-  background: rgba(239, 35, 60, 0.15);
-  color: #fb7185;
-}
-
-:root[data-theme="dark"] .profile-form h3 {
-  color: #f8fafc;
-}
-
-:root[data-theme="dark"] .profile-form label {
-  color: #e5e7eb;
-}
-
-:root[data-theme="dark"] .profile-form input {
-  background: #0b1220;
-  color: #f8fafc;
-  border-color: #334155;
-}
-
-:root[data-theme="dark"] .profile-form input:focus {
-  border-color: #ef233c;
-  box-shadow: 0 0 0 3px rgba(239, 35, 60, 0.16);
-}
-
-:root[data-theme="dark"] .primary-btn {
-  background: linear-gradient(135deg, #ef233c, #b91c1c);
-}
-
-:root[data-theme="dark"] .dark-btn {
-  background: #334155;
-}
-
-/* Mobile Header Professional Fix */
+/* Mobile Header Final Position Fix */
 
 @media (max-width: 800px) {
   .erp-header {
-    height: 188px !important;
-    padding: 12px 14px !important;
-    align-items: flex-start !important;
+    height: 178px !important;
+    padding: 0 !important;
+    display: block !important;
     position: sticky !important;
+    top: 0 !important;
+    overflow: visible !important;
   }
 
   .burger-btn {
     position: absolute !important;
-    left: 16px !important;
-    top: 26px !important;
-    z-index: 10 !important;
+    left: 18px !important;
+    top: 42px !important;
+    width: 52px !important;
+    height: 52px !important;
+    padding: 0 !important;
+    z-index: 20 !important;
   }
 
   .erp-title {
     position: absolute !important;
-    left: 80px !important;
-    right: 130px !important;
-    top: 34px !important;
+    left: 96px !important;
+    right: 138px !important;
+    top: 38px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-height: 62px !important;
     text-align: center !important;
+
     font-size: 13px !important;
-    line-height: 1.2 !important;
+    line-height: 1.15 !important;
     letter-spacing: 0.2px !important;
+    font-weight: 900 !important;
     white-space: normal !important;
-    z-index: 10 !important;
+
+    color: #ffffff !important;
+    z-index: 15 !important;
   }
 
   .erp-user {
@@ -461,15 +50,22 @@
 
   .erp-user .theme-toggle-btn {
     position: absolute !important;
-    right: 76px !important;
-    top: 20px !important;
+    right: 78px !important;
+    top: 34px !important;
+
     width: 58px !important;
     height: 58px !important;
     padding: 0 !important;
     border-radius: 18px !important;
+
     display: grid !important;
     place-items: center !important;
-    z-index: 12 !important;
+
+    background: rgba(255, 255, 255, 0.16) !important;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
+    color: #ffffff !important;
+
+    z-index: 22 !important;
   }
 
   .erp-user .theme-toggle-btn span {
@@ -477,21 +73,27 @@
   }
 
   .erp-user .theme-toggle-btn svg {
-    font-size: 24px !important;
+    font-size: 25px !important;
   }
 
   .erp-user > button:last-child {
     position: absolute !important;
-    right: 14px !important;
-    top: 20px !important;
+    right: 16px !important;
+    top: 34px !important;
+
     width: 58px !important;
     height: 58px !important;
     padding: 0 !important;
     border-radius: 18px !important;
-    font-size: 0 !important;
+
     display: grid !important;
     place-items: center !important;
-    z-index: 12 !important;
+
+    font-size: 0 !important;
+    background: #020617 !important;
+    color: #ffffff !important;
+
+    z-index: 22 !important;
   }
 
   .erp-user > button:last-child svg {
@@ -502,8 +104,9 @@
     position: absolute !important;
     left: 18px !important;
     right: 18px !important;
-    top: 122px !important;
-    height: 52px !important;
+    top: 132px !important;
+
+    height: 50px !important;
     width: auto !important;
     max-width: none !important;
 
@@ -519,66 +122,59 @@
     font-size: 18px !important;
     font-weight: 900 !important;
 
-    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22) !important;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.24) !important;
+
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-    z-index: 11 !important;
+
+    z-index: 21 !important;
   }
 
   .erp-main {
-    padding: 16px 12px 12px !important;
-  }
-
-  .profile-form {
-    grid-template-columns: 1fr;
-  }
-
-  .scroll-float-tools {
-    right: 12px;
-    bottom: 14px;
-    gap: 8px;
-    z-index: 800;
-  }
-
-  .scroll-float-tools button {
-    width: 42px;
-    height: 42px;
-    font-size: 20px;
+    padding: 22px 12px 12px !important;
   }
 }
 
-/* Very Small Mobile */
-
 @media (max-width: 420px) {
   .erp-header {
-    height: 182px !important;
+    height: 174px !important;
+  }
+
+  .burger-btn {
+    left: 16px !important;
+    top: 42px !important;
+    width: 50px !important;
+    height: 50px !important;
   }
 
   .erp-title {
-    left: 72px !important;
+    left: 82px !important;
     right: 132px !important;
-    top: 35px !important;
+    top: 36px !important;
+    min-height: 64px !important;
     font-size: 12px !important;
+    line-height: 1.15 !important;
   }
 
   .erp-user .theme-toggle-btn {
     right: 72px !important;
-    top: 22px !important;
-    width: 52px !important;
-    height: 52px !important;
+    top: 34px !important;
+    width: 54px !important;
+    height: 54px !important;
   }
 
   .erp-user > button:last-child {
-    top: 22px !important;
-    width: 52px !important;
-    height: 52px !important;
+    right: 14px !important;
+    top: 34px !important;
+    width: 54px !important;
+    height: 54px !important;
   }
 
   .erp-user .profile-chip {
-    top: 118px !important;
-    height: 50px !important;
+    top: 128px !important;
+    height: 48px !important;
     font-size: 16px !important;
     border-radius: 16px !important;
   }
-  }
+}
