@@ -2,8 +2,6 @@ import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import {
-  FiArrowDown,
-  FiArrowUp,
   FiBarChart2,
   FiBox,
   FiDollarSign,
@@ -140,17 +138,6 @@ export default function ERPLayout() {
   const doLogout = () => {
     logout();
     navigate("/login");
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
   };
 
   const openProfile = async () => {
@@ -420,16 +407,6 @@ export default function ERPLayout() {
       <main className="erp-main">
         <Outlet />
       </main>
-
-      <div className="scroll-float-tools" aria-label="Page scroll controls">
-        <button type="button" onClick={scrollToTop} title="Scroll Up">
-          <FiArrowUp />
-        </button>
-
-        <button type="button" onClick={scrollToBottom} title="Scroll Down">
-          <FiArrowDown />
-        </button>
-      </div>
     </div>
   );
-        }
+                  }
