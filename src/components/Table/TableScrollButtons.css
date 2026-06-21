@@ -1,51 +1,92 @@
-
 .table-area {
   position: relative;
 }
 
+/* Table scrolling box */
 .table-scroll-box {
   max-height: calc(100vh - 230px);
   overflow: auto;
   position: relative;
+  scroll-behavior: smooth;
 }
 
+/* Professional floating button wrapper */
 .table-scroll-tools {
   position: absolute;
-  right: 14px;
-  bottom: 14px;
-  z-index: 50;
+  right: 16px;
+  bottom: 16px;
+  z-index: 80;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(189, 16, 23, 0.14);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
 }
 
+/* Buttons */
 .table-scroll-tools button {
   width: 42px;
   height: 42px;
-  border: 1px solid #fecaca;
+  border: 0;
   border-radius: 50%;
-  background: #ffffff;
+  background: linear-gradient(135deg, #ffffff, #fff1f2);
   color: #bd1017;
   display: grid;
   place-items: center;
   font-size: 20px;
   cursor: pointer;
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18);
-  transition: 0.2s ease;
+  box-shadow:
+    0 10px 22px rgba(189, 16, 23, 0.16),
+    inset 0 0 0 1px rgba(189, 16, 23, 0.16);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .table-scroll-tools button:hover {
-  background: #fff5f5;
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.04);
+  background: linear-gradient(135deg, #fff7f7, #ffe4e6);
+  color: #991b1b;
+  box-shadow:
+    0 14px 28px rgba(189, 16, 23, 0.24),
+    inset 0 0 0 1px rgba(189, 16, 23, 0.22);
+}
+
+.table-scroll-tools button:active {
+  transform: scale(0.96);
+}
+
+/* Dark mode */
+:root[data-theme="dark"] .table-scroll-tools {
+  background: rgba(15, 23, 42, 0.78);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 :root[data-theme="dark"] .table-scroll-tools button {
-  background: #f8fafc;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
   color: #bd1017;
-  border-color: #fecaca;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.38),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.65);
 }
 
+:root[data-theme="dark"] .table-scroll-tools button:hover {
+  background: linear-gradient(135deg, #fff1f2, #ffffff);
+  color: #991b1b;
+}
+
+/* Mobile responsive */
 @media (max-width: 768px) {
   .table-scroll-box {
     max-height: calc(100vh - 260px);
@@ -54,6 +95,8 @@
   .table-scroll-tools {
     right: 10px;
     bottom: 10px;
+    gap: 8px;
+    padding: 7px;
   }
 
   .table-scroll-tools button {
@@ -61,4 +104,4 @@
     height: 38px;
     font-size: 18px;
   }
-} 
+}
