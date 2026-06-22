@@ -1,21 +1,28 @@
-export default function AuthLayout({ children }) {
-return (
-<div className="authPage">
+import { FiMoon, FiSun } from "react-icons/fi";
+import { useTheme } from "../../context/ThemeContext";
+import "./AuthLayout.css";
 
-<div className="authCard">  
+export default function AuthLayout({ children, subtitle }) {
+  const { theme, isDark, toggleTheme } = useTheme();
 
-    <div className="authHeader">  
-      <h1 className="titleRed">Lotte Kolson PVT LTD</h1>  
-      <h2 className="titleBlack">Store Management System</h2>  
-    </div>  
+  return (
+    <div className="authPage">
+      <button
+        type="button"
+        className="auth-theme-toggle"
+        onClick={toggleTheme}
+        title={`Switch to ${isDark ? "light" : "dark"} mode`}
+      >
+        {isDark ? <FiSun /> : <FiMoon />}
+        <span>{theme === "dark" ? "Light" : "Dark"}</span>
+      </button>
 
-    <div className="authBody">  
-      {children}  
-    </div>  
-
-  </div>  
-
-</div>
-
-);
+      <div className="authCard">
+        <div className="authBody">
+          {subtitle && <p className="auth-subtitle">{subtitle}</p>}
+          {children}
+        </div>
+      </div>
+    </div>
+  );
 }
