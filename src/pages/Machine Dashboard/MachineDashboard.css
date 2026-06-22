@@ -83,7 +83,7 @@
 }
 
 .machineTableBox {
-  background: white;
+  background: #ffffff;
   border-radius: 12px;
   overflow: auto;
   max-height: 52vh;
@@ -139,6 +139,7 @@
 
 .totalSubHeader {
   background: #075985;
+  color: #ffffff !important;
 }
 
 .stickyMachineCol {
@@ -181,8 +182,8 @@
 
 .monthTotalCell {
   background: #fff7ed !important;
-  font-weight: 900;
-  color: #111827;
+  color: #111827 !important;
+  font-weight: 900 !important;
 }
 
 .emptyCell {
@@ -301,6 +302,157 @@
   font-weight: 900;
 }
 
+/* =========================
+   DARK MODE FINAL FIX
+   ========================= */
+
+:root[data-theme="dark"] .machinePage,
+html[data-theme="dark"] .machinePage,
+body.dark .machinePage,
+.dark .machinePage {
+  background: #020617 !important;
+}
+
+:root[data-theme="dark"] .machineTableBox,
+html[data-theme="dark"] .machineTableBox,
+body.dark .machineTableBox,
+.dark .machineTableBox,
+:root[data-theme="dark"] .machineChartBox,
+html[data-theme="dark"] .machineChartBox,
+body.dark .machineChartBox,
+.dark .machineChartBox,
+:root[data-theme="dark"] .machineBox,
+html[data-theme="dark"] .machineBox,
+body.dark .machineBox,
+.dark .machineBox {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+:root[data-theme="dark"] .machineBox h3,
+html[data-theme="dark"] .machineBox h3,
+body.dark .machineBox h3,
+.dark .machineBox h3,
+:root[data-theme="dark"] .chartTitle span,
+html[data-theme="dark"] .chartTitle span,
+body.dark .chartTitle span,
+.dark .chartTitle span,
+:root[data-theme="dark"] .barMonth,
+html[data-theme="dark"] .barMonth,
+body.dark .barMonth,
+.dark .barMonth,
+:root[data-theme="dark"] .xAxisText,
+html[data-theme="dark"] .xAxisText,
+body.dark .xAxisText,
+.dark .xAxisText,
+:root[data-theme="dark"] .yAxisText,
+html[data-theme="dark"] .yAxisText,
+body.dark .yAxisText,
+.dark .yAxisText {
+  color: #cbd5e1 !important;
+}
+
+:root[data-theme="dark"] .machineBox p,
+html[data-theme="dark"] .machineBox p,
+body.dark .machineBox p,
+.dark .machineBox p,
+:root[data-theme="dark"] .chartTitle h3,
+html[data-theme="dark"] .chartTitle h3,
+body.dark .chartTitle h3,
+.dark .chartTitle h3,
+:root[data-theme="dark"] .barValue,
+html[data-theme="dark"] .barValue,
+body.dark .barValue,
+.dark .barValue {
+  color: #ffffff !important;
+}
+
+/* Dark mode normal cells */
+:root[data-theme="dark"] .machinePage .machineTable tbody td,
+html[data-theme="dark"] .machinePage .machineTable tbody td,
+body.dark .machinePage .machineTable tbody td,
+.dark .machinePage .machineTable tbody td {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+}
+
+/* Dark mode even rows */
+:root[data-theme="dark"] .machinePage .machineTable tbody tr:nth-child(even) td,
+html[data-theme="dark"] .machinePage .machineTable tbody tr:nth-child(even) td,
+body.dark .machinePage .machineTable tbody tr:nth-child(even) td,
+.dark .machinePage .machineTable tbody tr:nth-child(even) td {
+  background: #111827 !important;
+  color: #ffffff !important;
+}
+
+/* Sticky machine name in dark mode */
+:root[data-theme="dark"] .machinePage .machineTable tbody td.machineNameCell,
+html[data-theme="dark"] .machinePage .machineTable tbody td.machineNameCell,
+body.dark .machinePage .machineTable tbody td.machineNameCell,
+.dark .machinePage .machineTable tbody td.machineNameCell {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+/* Most important fix: Month Total column text visible */
+:root[data-theme="dark"] .machinePage .machineTable tbody tr td.monthTotalCell,
+html[data-theme="dark"] .machinePage .machineTable tbody tr td.monthTotalCell,
+body.dark .machinePage .machineTable tbody tr td.monthTotalCell,
+.dark .machinePage .machineTable tbody tr td.monthTotalCell {
+  background: #fff7ed !important;
+  color: #0f172a !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* Even row Month Total should also stay visible */
+:root[data-theme="dark"] .machinePage .machineTable tbody tr:nth-child(even) td.monthTotalCell,
+html[data-theme="dark"] .machinePage .machineTable tbody tr:nth-child(even) td.monthTotalCell,
+body.dark .machinePage .machineTable tbody tr:nth-child(even) td.monthTotalCell,
+.dark .machinePage .machineTable tbody tr:nth-child(even) td.monthTotalCell {
+  background: #fff7ed !important;
+  color: #0f172a !important;
+}
+
+/* Hover Month Total */
+:root[data-theme="dark"] .machinePage .machineTable tbody tr:hover td.monthTotalCell,
+html[data-theme="dark"] .machinePage .machineTable tbody tr:hover td.monthTotalCell,
+body.dark .machinePage .machineTable tbody tr:hover td.monthTotalCell,
+.dark .machinePage .machineTable tbody tr:hover td.monthTotalCell {
+  background: #ffedd5 !important;
+  color: #0f172a !important;
+}
+
+/* If value inside span/div, force it too */
+:root[data-theme="dark"] .machinePage .machineTable tbody tr td.monthTotalCell *,
+html[data-theme="dark"] .machinePage .machineTable tbody tr td.monthTotalCell *,
+body.dark .machinePage .machineTable tbody tr td.monthTotalCell *,
+.dark .machinePage .machineTable tbody tr td.monthTotalCell * {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+/* Dark mode Month Total header */
+:root[data-theme="dark"] .machinePage .machineTable thead .totalSubHeader,
+html[data-theme="dark"] .machinePage .machineTable thead .totalSubHeader,
+body.dark .machinePage .machineTable thead .totalSubHeader,
+.dark .machinePage .machineTable thead .totalSubHeader {
+  background: #075985 !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode main sticky header */
+:root[data-theme="dark"] .machinePage .mainMachineHead,
+html[data-theme="dark"] .machinePage .mainMachineHead,
+body.dark .machinePage .mainMachineHead,
+.dark .machinePage .mainMachineHead {
+  background: #111827 !important;
+  color: #ffffff !important;
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .machinePage {
     padding: 10px;
@@ -333,47 +485,4 @@
   .barGroup {
     min-width: 95px;
   }
-}
-
-
-
-/* DARK MODE FIX — MONTH TOTAL TEXT VISIBLE */
-:root[data-theme="dark"] .machineTable .monthTotalCell,
-body.dark .machineTable .monthTotalCell,
-.dark .machineTable .monthTotalCell {
-  background: #fff7ed !important;
-  color: #0f172a !important;
-  font-weight: 900 !important;
-  text-shadow: none !important;
-}
-
-/* Month total header dark mode */
-:root[data-theme="dark"] .machineTable .totalSubHeader,
-body.dark .machineTable .totalSubHeader,
-.dark .machineTable .totalSubHeader {
-  background: #075985 !important;
-  color: #ffffff !important;
-}
-
-/* Normal dark mode table cells */
-:root[data-theme="dark"] .machineTable td,
-body.dark .machineTable td,
-.dark .machineTable td {
-  color: #ffffff !important;
-}
-
-/* But Month Total column should stay dark text */
-:root[data-theme="dark"] .machineTable td.monthTotalCell,
-body.dark .machineTable td.monthTotalCell,
-.dark .machineTable td.monthTotalCell {
-  color: #0f172a !important;
-  background: #fff7ed !important;
-}
-
-/* Hover par bhi total text visible rahe */
-:root[data-theme="dark"] .machineTable tbody tr:hover td.monthTotalCell,
-body.dark .machineTable tbody tr:hover td.monthTotalCell,
-.dark .machineTable tbody tr:hover td.monthTotalCell {
-  background: #ffedd5 !important;
-  color: #0f172a !important;
 }
