@@ -1,27 +1,367 @@
-.excel-section-page { width: 100%; }
-.sheet-card { background: #fff; border-radius: 16px; box-shadow: 0 12px 35px rgba(0,0,0,.08); overflow: hidden; border: 1px solid #dbeafe; }
-.sheet-title-band { background: var(--sheet-title, #17365d); color: #fff; text-align: center; font-weight: 900; font-size: 18px; letter-spacing: .5px; padding: 14px; text-transform: uppercase; }
-.sheet-group-band { background: var(--sheet-group, #203864); color: #fff; text-align: center; font-weight: 900; padding: 10px; }
-.sheet-meta-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; background: #f8fafc; color: #475569; padding: 10px 14px; font-size: 12px; font-weight: 800; border-bottom: 1px solid #e5e7eb; }
-.excel-table-wrap { overflow: auto; max-height: calc(100vh - 265px); }
-.excel-like-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.excel-like-table th { position: sticky; top: 0; z-index: 2; background: var(--sheet-header, #d9eaf7); color: var(--sheet-header-text, #1f4e78); font-size: 11px; border: 1px solid #9dc3e6; padding: 9px 8px; text-align: center; font-weight: 900; white-space: normal; }
-.excel-like-table td { border: 1px solid #d8e2ef; padding: 7px 8px; font-size: 12px; min-height: 28px; background: #fff; color: #111827; vertical-align: top; word-break: break-word; }
-.excel-like-table tbody tr:nth-child(even) td { background: var(--sheet-alt, #f8fafc); }
-.excel-like-table input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 7px; font-size: 12px; }
-.excel-like-table .action-th { width: 190px; background: #bd1017; color: #fff; }
-.empty-row { text-align: center; color: #64748b; font-weight: 800; padding: 22px !important; }
-.action-cell { white-space: nowrap; display: flex; gap: 6px; }
-.action-cell button { border: 0; border-radius: 7px; padding: 7px 9px; cursor: pointer; font-weight: 800; }
-.save-btn { background: #16a34a; color: #fff; }
-.delete-btn { background: #dc2626; color: #fff; }
-.excel-section-page.gatepass { --sheet-title: #17365d; --sheet-group: #203864; --sheet-header: #d9eaf7; --sheet-header-text: #1f4e78; --sheet-alt: #f8fbff; }
-.excel-section-page.fuel { --sheet-title: #0b1f3a; --sheet-group: #1d2330; --sheet-header: #1d2330; --sheet-header-text: #ffffff; --sheet-alt: #eaf3ff; }
-.excel-section-page.tools { --sheet-title: #0f172a; --sheet-group: #334155; --sheet-header: #dbeafe; --sheet-header-text: #0f172a; --sheet-alt: #f8fafc; }
-@media(max-width: 800px){ .sheet-title-band { font-size: 15px; } .excel-table-wrap { max-height: calc(100vh - 310px); } }
-.travel-filters { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 10px; background: #fff; border: 1px solid #dbeafe; border-radius: 14px; padding: 12px; margin-bottom: 14px; box-shadow: 0 10px 28px rgba(0,0,0,.06); }
-.travel-filters label { color: #374151; font-size: 12px; font-weight: 900; }
-.travel-filters input, .travel-filters select { width: 100%; margin-top: 5px; border: 1px solid #cbd5e1; border-radius: 9px; padding: 9px; outline: none; }
-.travel-filters button { align-self: end; border: 0; border-radius: 9px; background: #111827; color: #fff; padding: 10px 12px; font-weight: 900; cursor: pointer; }
-.excel-like-table input:disabled { background: #f1f5f9; color: #475569; font-weight: 800; }
-@media(max-width: 900px){ .travel-filters { grid-template-columns: 1fr; } }
+.excel-section-page {
+  width: 100%;
+}
+
+.sheet-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+}
+
+.sheet-title-band {
+  background: var(--sheet-title, #17365d);
+  color: #fff;
+  text-align: center;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  padding: 14px;
+  text-transform: uppercase;
+}
+
+.sheet-group-band {
+  background: var(--sheet-group, #203864);
+  color: #fff;
+  text-align: center;
+  font-weight: 900;
+  padding: 10px;
+}
+
+.sheet-meta-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #f8fafc;
+  color: #475569;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.excel-table-area {
+  position: relative;
+}
+
+.excel-table-wrap {
+  overflow: auto;
+  max-height: calc(100vh - 265px);
+  scroll-behavior: smooth;
+}
+
+.excel-like-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.excel-like-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--sheet-header, #d9eaf7);
+  color: var(--sheet-header-text, #1f4e78);
+  font-size: 11px;
+  border: 1px solid #9dc3e6;
+  padding: 9px 8px;
+  text-align: center;
+  font-weight: 900;
+  white-space: normal;
+}
+
+.excel-like-table td {
+  border: 1px solid #d8e2ef;
+  padding: 7px 8px;
+  font-size: 12px;
+  min-height: 28px;
+  background: #fff;
+  color: #111827;
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.excel-like-table tbody tr:nth-child(even) td {
+  background: var(--sheet-alt, #f8fafc);
+}
+
+.excel-like-table input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 7px;
+  font-size: 12px;
+}
+
+.excel-like-table input:disabled {
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 800;
+}
+
+.excel-like-table .action-th {
+  width: 190px;
+  background: #bd1017;
+  color: #fff;
+}
+
+.empty-row {
+  text-align: center;
+  color: #64748b;
+  font-weight: 800;
+  padding: 22px !important;
+}
+
+.action-cell {
+  white-space: nowrap;
+  display: flex;
+  gap: 6px;
+}
+
+.action-cell button {
+  border: 0;
+  border-radius: 7px;
+  padding: 7px 9px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.save-btn {
+  background: #16a34a;
+  color: #fff;
+}
+
+.delete-btn {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* THEMES */
+.excel-section-page.gatepass {
+  --sheet-title: #17365d;
+  --sheet-group: #203864;
+  --sheet-header: #d9eaf7;
+  --sheet-header-text: #1f4e78;
+  --sheet-alt: #f8fbff;
+}
+
+.excel-section-page.fuel {
+  --sheet-title: #0b1f3a;
+  --sheet-group: #1d2330;
+  --sheet-header: #1d2330;
+  --sheet-header-text: #ffffff;
+  --sheet-alt: #eaf3ff;
+}
+
+.excel-section-page.tools {
+  --sheet-title: #0f172a;
+  --sheet-group: #334155;
+  --sheet-header: #dbeafe;
+  --sheet-header-text: #0f172a;
+  --sheet-alt: #f8fafc;
+}
+
+/* MONTHLY TRAVEL FILTERS */
+.travel-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+}
+
+.travel-filters label {
+  color: #374151;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.travel-filters input,
+.travel-filters select {
+  width: 100%;
+  margin-top: 5px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  padding: 9px;
+  outline: none;
+}
+
+.travel-filters button {
+  align-self: end;
+  border: 0;
+  border-radius: 9px;
+  background: #111827;
+  color: #fff;
+  padding: 10px 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* SCROLL BUTTON SAME TRANSACTION DESIGN */
+.table-scroll-tools {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.table-scroll-tools button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  color: #bd1017;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.16),
+    0 0 0 3px rgba(255, 255, 255, 0.7);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.table-scroll-tools button:hover {
+  background: #ffffff;
+  color: #991b1b;
+  border-color: rgba(189, 16, 23, 0.24);
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.2),
+    0 0 0 3px rgba(255, 255, 255, 0.9);
+}
+
+.table-scroll-tools button:active {
+  transform: scale(0.94);
+}
+
+/* DARK MODE */
+:root[data-theme="dark"] .sheet-card,
+body.dark .sheet-card,
+.dark .sheet-card,
+:root[data-theme="dark"] .travel-filters,
+body.dark .travel-filters,
+.dark .travel-filters {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+:root[data-theme="dark"] .sheet-meta-row,
+body.dark .sheet-meta-row,
+.dark .sheet-meta-row {
+  background: #111827;
+  color: #cbd5e1;
+  border-color: #334155;
+}
+
+:root[data-theme="dark"] .excel-like-table td,
+body.dark .excel-like-table td,
+.dark .excel-like-table td {
+  background: #0f172a;
+  color: #e5e7eb;
+  border-color: #334155;
+}
+
+:root[data-theme="dark"] .excel-like-table tbody tr:nth-child(even) td,
+body.dark .excel-like-table tbody tr:nth-child(even) td,
+.dark .excel-like-table tbody tr:nth-child(even) td {
+  background: #111827;
+}
+
+:root[data-theme="dark"] .excel-like-table input,
+body.dark .excel-like-table input,
+.dark .excel-like-table input,
+:root[data-theme="dark"] .travel-filters input,
+body.dark .travel-filters input,
+.dark .travel-filters input,
+:root[data-theme="dark"] .travel-filters select,
+body.dark .travel-filters select,
+.dark .travel-filters select {
+  background: #020617;
+  color: #ffffff;
+  border-color: #334155;
+}
+
+:root[data-theme="dark"] .travel-filters label,
+body.dark .travel-filters label,
+.dark .travel-filters label {
+  color: #e5e7eb;
+}
+
+:root[data-theme="dark"] .table-scroll-tools,
+body.dark .table-scroll-tools,
+.dark .table-scroll-tools {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+:root[data-theme="dark"] .table-scroll-tools button,
+body.dark .table-scroll-tools button,
+.dark .table-scroll-tools button {
+  background: #f8fafc;
+  color: #bd1017;
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.38),
+    0 0 0 3px rgba(15, 23, 42, 0.24);
+}
+
+:root[data-theme="dark"] .table-scroll-tools button:hover,
+body.dark .table-scroll-tools button:hover,
+.dark .table-scroll-tools button:hover {
+  background: #ffffff;
+  color: #991b1b;
+}
+
+/* RESPONSIVE */
+@media (max-width: 800px) {
+  .sheet-title-band {
+    font-size: 15px;
+  }
+
+  .excel-table-wrap {
+    max-height: calc(100vh - 310px);
+  }
+}
+
+@media (max-width: 900px) {
+  .travel-filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-scroll-tools {
+    right: 10px;
+    bottom: 10px;
+    gap: 8px;
+  }
+
+  .table-scroll-tools button {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+}
