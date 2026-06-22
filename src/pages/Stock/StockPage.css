@@ -1,11 +1,221 @@
-.erp-page { width: 100%; }
-.table-wrap { background: #fff; border-radius: 16px; box-shadow: 0 12px 35px rgba(0,0,0,.08); overflow: auto; max-height: calc(100vh - 170px); }
-.erp-table { width: 100%; border-collapse: collapse; min-width: 1200px; }
-.erp-table th { position: sticky; top: 0; background: #bd1017; color: #fff; padding: 10px; font-size: 12px; text-align: left; z-index: 2; white-space: nowrap; }
-.erp-table td { border: 1px solid #e5e7eb; padding: 8px; font-size: 12px; vertical-align: top; }
-.erp-table input { width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 7px; }
-.action-cell { white-space: nowrap; display: flex; gap: 6px; }
-.action-cell button { border: 0; border-radius: 7px; padding: 7px 9px; cursor: pointer; font-weight: 800; }
-.save-btn { background: #16a34a; color: #fff; }
-.delete-btn { background: #dc2626; color: #fff; }
-.erp-table select { width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 7px; background: #fff; }
+.erp-page {
+  width: 100%;
+}
+
+.table-area {
+  position: relative;
+}
+
+.table-wrap {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  overflow: auto;
+  max-height: calc(100vh - 170px);
+}
+
+.table-scroll-box {
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.erp-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+
+.erp-table th {
+  position: sticky;
+  top: 0;
+  background: #bd1017;
+  color: #fff;
+  padding: 10px;
+  font-size: 12px;
+  text-align: left;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.erp-table td {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  font-size: 12px;
+  vertical-align: top;
+}
+
+.erp-table input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 7px;
+}
+
+.erp-table select {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 7px;
+  background: #fff;
+}
+
+.action-cell {
+  white-space: nowrap;
+  display: flex;
+  gap: 6px;
+}
+
+.action-cell button {
+  border: 0;
+  border-radius: 7px;
+  padding: 7px 9px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.save-btn {
+  background: #16a34a;
+  color: #fff;
+}
+
+.delete-btn {
+  background: #dc2626;
+  color: #fff;
+}
+
+.empty-cell {
+  text-align: center;
+  padding: 30px !important;
+  font-weight: 900;
+  color: #64748b;
+}
+
+/* SAME DESIGN SCROLL UP/DOWN BUTTONS */
+.table-scroll-tools {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.table-scroll-tools button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  color: #bd1017;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.16),
+    0 0 0 3px rgba(255, 255, 255, 0.7);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.table-scroll-tools button:hover {
+  background: #ffffff;
+  color: #991b1b;
+  border-color: rgba(189, 16, 23, 0.24);
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.2),
+    0 0 0 3px rgba(255, 255, 255, 0.9);
+}
+
+.table-scroll-tools button:active {
+  transform: scale(0.94);
+}
+
+/* DARK MODE */
+:root[data-theme="dark"] .table-wrap,
+body.dark .table-wrap,
+.dark .table-wrap {
+  background: #0f172a;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+:root[data-theme="dark"] .erp-table td,
+body.dark .erp-table td,
+.dark .erp-table td {
+  background: #0f172a;
+  color: #e5e7eb;
+  border-color: #334155;
+}
+
+:root[data-theme="dark"] .erp-table tbody tr:nth-child(even) td,
+body.dark .erp-table tbody tr:nth-child(even) td,
+.dark .erp-table tbody tr:nth-child(even) td {
+  background: #111827;
+}
+
+:root[data-theme="dark"] .erp-table input,
+body.dark .erp-table input,
+.dark .erp-table input,
+:root[data-theme="dark"] .erp-table select,
+body.dark .erp-table select,
+.dark .erp-table select {
+  background: #020617;
+  color: #ffffff;
+  border-color: #334155;
+}
+
+:root[data-theme="dark"] .table-scroll-tools,
+body.dark .table-scroll-tools,
+.dark .table-scroll-tools {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+:root[data-theme="dark"] .table-scroll-tools button,
+body.dark .table-scroll-tools button,
+.dark .table-scroll-tools button {
+  background: #f8fafc;
+  color: #bd1017;
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.38),
+    0 0 0 3px rgba(15, 23, 42, 0.24);
+}
+
+:root[data-theme="dark"] .table-scroll-tools button:hover,
+body.dark .table-scroll-tools button:hover,
+.dark .table-scroll-tools button:hover {
+  background: #ffffff;
+  color: #991b1b;
+}
+
+@media (max-width: 768px) {
+  .table-wrap {
+    max-height: calc(100vh - 230px);
+  }
+
+  .table-scroll-tools {
+    right: 10px;
+    bottom: 10px;
+    gap: 8px;
+  }
+
+  .table-scroll-tools button {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+}
