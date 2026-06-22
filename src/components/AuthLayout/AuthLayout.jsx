@@ -1,5 +1,6 @@
 import { FiMoon, FiSun } from "react-icons/fi";
 import { useTheme } from "../../context/ThemeContext";
+import "./Auth.css";
 
 export default function AuthLayout({ children }) {
   const { theme, isDark, toggleTheme } = useTheme();
@@ -17,11 +18,6 @@ export default function AuthLayout({ children }) {
       </button>
 
       <div className="authCard">
-        <div className="authHeader">
-          <h1 className="titleRed">Lotte Kolson PVT LTD</h1>
-          <h2 className="titleBlack">Store Management System</h2>
-        </div>
-
         <div className="authBody">{children}</div>
       </div>
     </div>
