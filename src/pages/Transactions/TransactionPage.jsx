@@ -7,7 +7,12 @@ import TableScrollButtons from "../../components/Table/TableScrollButtons";
 import { exportRowsExcel, exportRowsPDF } from "../../utils/exporters";
 import "../Stock/StockPage.css";
 
-const defaultCategories = ["Inventory", "Non Inventory", "Services", "Patty Cash"];
+const defaultCategories = [
+  "Inventory",
+  "Non Inventory",
+  "Services",
+  "Patty Cash",
+];
 
 const inwardColumns = [
   { key: "srNo", label: "Sr" },
@@ -20,7 +25,11 @@ const inwardColumns = [
   { key: "openQty", label: "Open Qty", readOnly: true },
   { key: "unitPrice", label: "Unit Price", readOnly: true },
   { key: "total", label: "Total", readOnly: true },
-  { key: "vendorSupplier", label: "Vendor/Supplier", selectGroup: "Vendor/Supplier" },
+  {
+    key: "vendorSupplier",
+    label: "Vendor/Supplier",
+    selectGroup: "Vendor/Supplier",
+  },
   { key: "department", label: "Department", selectGroup: "Department" },
   { key: "receivedBy", label: "Received By" },
   { key: "grnStatusWithDate", label: "GRN Status with Date" },
@@ -35,7 +44,11 @@ const issueColumns = [
   { key: "uom", label: "UOM", readOnly: true },
   { key: "qtyIssued", label: "Qty Issued", num: true },
   { key: "balanceQty", label: "Balance Qty", readOnly: true },
-  { key: "equipmentName", label: "Equipment Name", selectGroup: "Equipment Name" },
+  {
+    key: "equipmentName",
+    label: "Equipment Name",
+    selectGroup: "Equipment Name",
+  },
   { key: "subEquipmentName", label: "Sub Equipment Name" },
   { key: "issuedTo", label: "Issued To", selectGroup: "Issued To" },
   { key: "shift", label: "Shift", selectGroup: "Shift" },
@@ -205,6 +218,7 @@ export default function TransactionPage({ type, title }) {
     const unitPrice = Number(next.unitPrice || 0);
     const qtyReceived = Number(next.qtyReceived || 0);
     const qtyIssued = Number(next.qtyIssued || 0);
+
     const stockBalance = Number(
       next._stockBalance ?? next.openQty ?? next.balanceQty ?? 0
     );
@@ -231,8 +245,8 @@ export default function TransactionPage({ type, title }) {
 
     const withStock = {
       ...baseDraft,
-      itemCode: cleanText(baseDraft.itemCode),
-      category: cleanText(baseDraft.category),
+      itemCode: cleanText(item.itemCode || baseDraft.itemCode),
+      category: cleanText(item.category || baseDraft.category),
       itemDescription: item.itemDescription || "",
       uom: item.uom || "",
       unitPrice,
@@ -280,9 +294,8 @@ export default function TransactionPage({ type, title }) {
 
       setDraft((prev) => {
         const currentCode = cleanText(prev.itemCode);
-        const currentCategory = cleanText(prev.category);
 
-        if (currentCode !== itemCode || currentCategory !== category) {
+        if (currentCode !== itemCode) {
           return prev;
         }
 
@@ -297,9 +310,8 @@ export default function TransactionPage({ type, title }) {
 
       setDraft((prev) => {
         const currentCode = cleanText(prev.itemCode);
-        const currentCategory = cleanText(prev.category);
 
-        if (currentCode !== itemCode || currentCategory !== category) {
+        if (currentCode !== itemCode) {
           return prev;
         }
 
@@ -592,7 +604,7 @@ export default function TransactionPage({ type, title }) {
                   (editing === "new" && row._id === "new");
 
                 return (
-                  <tr key={row._id}>
+                  <tr key={row._id || idx}>
                     {columns.map((col) => (
                       <td key={col.key}>{renderCell(row, col, idx)}</td>
                     ))}
@@ -647,4 +659,4 @@ export default function TransactionPage({ type, title }) {
       </div>
     </div>
   );
-  }
+        }
