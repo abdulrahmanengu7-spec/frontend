@@ -14,6 +14,14 @@ function blankRow(columns) {
   }, {});
 }
 
+function cleanText(value) {
+  return String(value ?? "").trim();
+}
+
+function normalizeText(value) {
+  return cleanText(value).toLowerCase();
+}
+
 function normalizeIncomingRow(row, columns) {
   const data = row?.data || row || {};
   const normalized = {};
@@ -82,6 +90,23 @@ function validateMonthlyTravel(row) {
   return "";
 }
 
+function cellMatchesFilter(rowValue, filterValue, type) {
+  const filter = cleanText(filterValue);
+  if (!filter) return true;
+
+  const value = cleanText(rowValue);
+
+  if (type === "date") {
+    return value.slice(0, 10) === filter || value.includes(filter);
+  }
+
+  if (type === "number") {
+    return String(num(value)).includes(String(num(filter)));
+  }
+
+  return normalizeText(value).includes(normalizeText(filter));
+}
+
 export default function GenericExcelPage({ config }) {
   const { canWrite, canDelete } = useAuth();
 
@@ -89,6 +114,7 @@ export default function GenericExcelPage({ config }) {
 
   const [records, setRecords] = useState([]);
   const [search, setSearch] = useState("");
+  const [advancedFilters, setAdvancedFilters] = useState({});
   const [editing, setEditing] = useState(null);
   const [draft, setDraft] = useState({});
   const [busy, setBusy] = useState(false);
@@ -110,8 +136,8 @@ export default function GenericExcelPage({ config }) {
         params: { q: search },
       });
 
-      setRecords(res.data || []);
-      return res.data || [];
+      setRecords(Array.isArray(res.data) ? res.data : []);
+      return Array.isArray(res.data) ? res.data : [];
     } catch (e) {
       toast.error(e.response?.data?.message || `${config.title} refresh failed`);
       return [];
@@ -121,6 +147,16 @@ export default function GenericExcelPage({ config }) {
   };
 
   useEffect(() => {
+    setSearch("");
+    setAdvancedFilters({});
+    setEditing(null);
+    setDraft({});
+    setFilters({
+      month: "",
+      date: "",
+      vendor: "",
+    });
+
     load();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,14 +169,33 @@ export default function GenericExcelPage({ config }) {
     }));
   }, [records, columns]);
 
+  const filterFields = useMemo(() => {
+    return columns.map((col) => ({
+      key: col.key,
+      label: col.label,
+      type: col.type === "number" ? "number" : col.type === "date" ? "date" : "text",
+    }));
+  }, [columns]);
+
   const filtered = useMemo(() => {
-    const q = search.toLowerCase();
+    const q = normalizeText(search);
+
+    const activeAdvancedFilters = Object.entries(advancedFilters).filter(
+      ([, value]) => cleanText(value) !== ""
+    );
 
     return flatRows.filter((row) => {
       const textMatch =
         !q || JSON.stringify(row).toLowerCase().includes(q);
 
       if (!textMatch) return false;
+
+      const advancedMatch = activeAdvancedFilters.every(([key, value]) => {
+        const col = columns.find((c) => c.key === key);
+        return cellMatchesFilter(row[key], value, col?.type || "text");
+      });
+
+      if (!advancedMatch) return false;
 
       if (isMonthlyTravel) {
         if (filters.month && row.Month !== filters.month) return false;
@@ -164,7 +219,7 @@ export default function GenericExcelPage({ config }) {
 
       return true;
     });
-  }, [flatRows, search, filters, isMonthlyTravel]);
+  }, [flatRows, search, filters, advancedFilters, isMonthlyTravel, columns]);
 
   const monthOptions = useMemo(() => {
     return Array.from(new Set(flatRows.map((r) => r.Month).filter(Boolean)));
@@ -260,6 +315,16 @@ export default function GenericExcelPage({ config }) {
     }
   };
 
+  const clearAllFilters = () => {
+    setAdvancedFilters({});
+    setFilters({
+      month: "",
+      date: "",
+      vendor: "",
+    });
+    setSearch("");
+  };
+
   const data =
     editing === "new" ? [{ ...draft, _id: "new" }, ...filtered] : filtered;
 
@@ -304,7 +369,8 @@ export default function GenericExcelPage({ config }) {
         setSearch={setSearch}
         onAdd={startAdd}
         onRefresh={load}
-        onFilter={load}
+        onFilter={setAdvancedFilters}
+        filterFields={filterFields}
         onImportExcel={importExcel}
         onDeleteAll={deleteAll}
         onExportExcel={() =>
@@ -367,16 +433,7 @@ export default function GenericExcelPage({ config }) {
             />
           </label>
 
-          <button
-            type="button"
-            onClick={() =>
-              setFilters({
-                month: "",
-                date: "",
-                vendor: "",
-              })
-            }
-          >
+          <button type="button" onClick={clearAllFilters}>
             Clear Filters
           </button>
         </div>
